@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Helena Piano — Audio → MIDI extraction (lightweight, no TensorFlow)
+"""Bayaba Jokbal — Audio → MIDI extraction (lightweight, no TensorFlow)
 Usage: python3 extract_midi.py audio.wav [output.mid]
        python3 extract_midi.py audio.mp3 --onset-threshold 0.3
 Depends: librosa, numpy, scipy, pretty_midi (all installed on S21)

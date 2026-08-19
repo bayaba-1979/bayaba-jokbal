@@ -13,7 +13,7 @@
 | `bayaba-chicken` | 2026-07-27 | 심리 케어 |
 | `bayaba-installation` | 2026-07-27 | ✝️ 가족 신앙사 |
 | `bayaba_log` | 2026-07-27 | 업무일지 |
-| `helena-faith` | 2026-07-26 | ✝️ 신앙사 (구버전) |
+| `bayaba-faith` | 2026-07-26 | ✝️ 신앙사 (구버전) |
 
 ---
 

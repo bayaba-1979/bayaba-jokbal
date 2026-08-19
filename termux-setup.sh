@@ -2,7 +2,7 @@
 # ============================================
 # 📱 Phone Claude — 갤럭시 AI 서버 설치 스크립트
 # ============================================
-# 출처: dtslib-papyrus gift/helena (본사 SSOT)
+# 출처: dtslib-papyrus gift/bayaba (본사 SSOT)
 
 set -e
 echo "🚀 Phone Claude 설치 시작"

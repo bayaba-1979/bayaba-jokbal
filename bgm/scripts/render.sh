@@ -1,5 +1,5 @@
 #!/bin/bash
-# ─── Helena Piano BGM Studio — S21 Local Render ──────────
+# ─── Bayaba Jokbal BGM Studio — S21 Local Render ──────────
 # S21 + proot Ubuntu에서 MIDI → MP3 로컬 렌더링
 #
 # 사용법:

@@ -1,4 +1,4 @@
-# 🎹 Helena Piano — BGM Studio
+# 🎹 Bayaba Jokbal — BGM Studio
 
 > **모든 YouTube 채널의 배경음악 공급소**  
 > MIDI를 넣으면 Fluid R3 GM으로 렌더링된 MP3가 나옵니다.
@@ -139,7 +139,7 @@ python3 composer_v2.py --emotion "peaceful" --style "chopin" --output bgm/midi/n
 
 ```markdown
 [배경음악 출처]
-BGM: Helena Piano Studio
+BGM: Bayaba Jokbal Studio
 https://bayaba-1979.github.io/bayaba-jokbal/bgm/output/{곡명}.mp3
 ```
 

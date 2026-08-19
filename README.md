@@ -1,11 +1,11 @@
-# Helena Piano — a classical webzine on one phone
+# Bayaba Jokbal — a classical webzine on one phone
 
-![Helena Piano — a classical webzine rendered on one phone](assets/social-preview.jpg)
+![Bayaba Jokbal — a classical webzine rendered on one phone](assets/social-preview.jpg)
 
 > A high-end classical-music webzine, rendered and served from an old Galaxy S21:
 > piano music produced on-device (tech), plus listening, reviews, and interviews (magazine).
 >
-> Part of the [**Helena Content Foundry**](https://github.com/bayaba-1979/bayaba_phone) — mobile-first, MCP-verified.
+> Part of the [**Bayaba Content Foundry**](https://github.com/bayaba-1979/bayaba_phone) — mobile-first, MCP-verified.
 
 ---
 

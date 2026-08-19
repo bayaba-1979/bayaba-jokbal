@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="parksy-audio 파이프라인 전체 흐름 — bayaba-jokbal &quot;Record → Broadcast&quot; 구역과 매핑">
 <meta name="theme-color" content="#0a0908">
-<title>04 — MIDI → 렌더링 → YouTube 송출 파이프라인 지도 — Helena Piano</title>
+<title>04 — MIDI → 렌더링 → YouTube 송출 파이프라인 지도 — Bayaba Jokbal</title>
 <link rel="canonical" href="https://bayaba-1979.github.io/bayaba-jokbal/fridge/04-pipeline-map.html">
 <script type="application/ld+json">
 {
@@ -111,7 +111,7 @@ mark.hit{background:color-mix(in srgb,var(--accent) 35%,transparent)}
 <body>
 <div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
 <header class="mast">
-  <a class="brand" href="../">Helena <em>Piano</em></a>
+  <a class="brand" href="../">Bayaba <em>Piano</em></a>
   <nav>
     <a href="../">Home</a>
     <a href="../docs/">Docs</a>
@@ -289,7 +289,7 @@ jobs:
           path: output/*.mp3
 </code></pre></article>
   <footer class="foot">
-    <div>Helena Piano · Docs Webzine</div>
+    <div>Bayaba Jokbal · Docs Webzine</div>
     <div class="a">모든 계정은 큰누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="../">← Landing</a> · <a href="https://bayaba-1979.github.io/bayaba_phone/">S21 Hub</a></p>
   </footer>
@@ -297,12 +297,12 @@ jobs:
 <script>
 (() => {
   const root = document.documentElement;
-  const saved = localStorage.getItem('helena-doc-theme');
+  const saved = localStorage.getItem('bayaba-doc-theme');
   if (saved) root.setAttribute('data-theme', saved);
   document.getElementById('themeBtn')?.addEventListener('click', () => {
     const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', n);
-    localStorage.setItem('helena-doc-theme', n);
+    localStorage.setItem('bayaba-doc-theme', n);
   });
   const spine = document.getElementById('spineFill');
   addEventListener('scroll', () => {

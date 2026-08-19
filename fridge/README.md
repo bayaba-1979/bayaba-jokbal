@@ -24,7 +24,7 @@
 2. **SoundFont 비교 완료**: FluidR3 vs SGM-HQ vs TOH4 vs Salamander — 백조의 호수 A/B 테스트 완료
 3. **YouTube 실적 39건**: 채널 "뮤지션 박씨" (`UCun6b2HD3ekp35PhqbTfOlg`)
 4. **S21 폰 구동 가능**: `local-agent/` Python 스크립트들 — MIDI 크롤러·추출·렌더링·TG 봇
-5. **헬레나 피아노와 연결만 하면 완성**: parksy-audio = 생산, bayaba-jokbal = 전시
+5. **바야바 피아노와 연결만 하면 완성**: parksy-audio = 생산, bayaba-jokbal = 전시
 
 ---
 

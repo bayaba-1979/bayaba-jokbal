@@ -1,6 +1,6 @@
-# Helena Piano — a classical-music webzine on one phone
+# Bayaba Jokbal — a classical-music webzine on one phone
 
-> A classical-music webzine from the Helena Content Foundry: piano rendered on-device, reviews and interviews. Built on one Galaxy S21, spoken into a terminal. Part of the aspiration track.
+> A classical-music webzine from the Bayaba Content Foundry: piano rendered on-device, reviews and interviews. Built on one Galaxy S21, spoken into a terminal. Part of the aspiration track.
 
 - [Repository](https://github.com/bayaba-1979/bayaba-jokbal)
 - [Live site (Korean)](https://bayaba-1979.github.io/bayaba-jokbal/)
