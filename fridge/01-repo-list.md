@@ -1,18 +1,18 @@
 # 01 — 전체 레포지토리 목록 (34종)
 
-> 조사일: 2026-07-28 · helena751107 PAT로 콜라보 접근 가능한 전체
+> 조사일: 2026-07-28 · bayaba-1979 PAT로 콜라보 접근 가능한 전체
 
 ---
 
-## helena751107 소유 (6개, 전부 public)
+## bayaba-1979 소유 (6개, 전부 public)
 
 | 레포 | 갱신일 | 설명 |
 |------|--------|------|
-| `helena_phone` | 2026-07-28 | S21 폰 허브 |
-| `helena-piano` | 2026-07-27 | 🎹 피아노 스튜디오 웹진 |
-| `helena-metalcare` | 2026-07-27 | 심리 케어 |
-| `helana-faith` | 2026-07-27 | ✝️ 가족 신앙사 |
-| `helana_log` | 2026-07-27 | 업무일지 |
+| `bayaba_phone` | 2026-07-28 | S21 폰 허브 |
+| `bayaba-jokbal` | 2026-07-27 | 🎹 피아노 스튜디오 웹진 |
+| `bayaba-chicken` | 2026-07-27 | 심리 케어 |
+| `bayaba-installation` | 2026-07-27 | ✝️ 가족 신앙사 |
+| `bayaba_log` | 2026-07-27 | 업무일지 |
 | `helena-faith` | 2026-07-26 | ✝️ 신앙사 (구버전) |
 
 ---
@@ -92,11 +92,11 @@
 ## 계정 구조
 
 ```
-helena751107 (REDACTED@gmail.com)
+bayaba-1979 (REDACTED@gmail.com)
   ├── 소유: 6개 public 레포
   └── 콜라보: REDACTED의 28개 레포 (26 private)
 
 REDACTED (REDACTED@gmail.com)
   └── 소유: 28개 레포 (26 private + 2 public)
-      └── 콜라보: helena751107
+      └── 콜라보: bayaba-1979
 ```

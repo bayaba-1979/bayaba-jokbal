@@ -52,8 +52,8 @@
 
 ---
 
-## 활용 방안 (helena-piano)
+## 활용 방안 (bayaba-jokbal)
 
 - **배경음악**: Dark Edition / Salamander Piano 시리즈 → 웹진 배경 BGM
 - **연습 레퍼런스**: 자작곡 시리즈 → "다음에 칠 곡" 레퍼토리로 등록
-- **SoundFont 선택**: Fluid R3 GM → 무료·고품질, helena-piano 렌더링 기본값
+- **SoundFont 선택**: Fluid R3 GM → 무료·고품질, bayaba-jokbal 렌더링 기본값

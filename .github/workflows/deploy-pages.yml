@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   deploy:
-    uses: helena751107/helena_phone/.github/workflows/pages-deploy.yml@main
+    uses: bayaba-1979/bayaba_phone/.github/workflows/pages-deploy.yml@main
     with:
       build: false
 

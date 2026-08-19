@@ -1,6 +1,6 @@
-name: 📰 Tistory RSS → 기자/ (helena-piano)
+name: 📰 Tistory RSS → 기자/ (bayaba-jokbal)
 
-# 중앙 재사용 워크플로 호출 — 로직은 helena_phone/.github/workflows/tistory-sync.yml
+# 중앙 재사용 워크플로 호출 — 로직은 bayaba_phone/.github/workflows/tistory-sync.yml
 on:
   schedule:
     - cron: '7 * * * *'
@@ -11,6 +11,6 @@ permissions:
 
 jobs:
   sync:
-    uses: helena751107/helena_phone/.github/workflows/tistory-sync.yml@main
+    uses: bayaba-1979/bayaba_phone/.github/workflows/tistory-sync.yml@main
     with:
-      blog: helena-piano
+      blog: bayaba-jokbal

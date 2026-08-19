@@ -68,7 +68,7 @@ pip install yt-dlp demucs basic-pitch mido
 | Hallelujah | Handel (1741) | ✅ 확실 | Mutopia, bitMidi |
 | Canon in D | Pachelbel (1680s) | ✅ 확실 | bitMidi, Mutopia |
 
-### @HelenaPark-e7c 찬양 테마 추천
+### @남성훈-f7i 찬양 테마 추천
 
 1. **God Save the King** (영국국가) → Salamander 렌더 → 찬양 영상 BGM
 2. **Amazing Grace** → 느린 템포, 묵상용

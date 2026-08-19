@@ -1,6 +1,6 @@
 # 04 — MIDI → 렌더링 → YouTube 송출 파이프라인 지도
 
-> parksy-audio 파이프라인 전체 흐름 — helena-piano "Record → Broadcast" 구역과 매핑
+> parksy-audio 파이프라인 전체 흐름 — bayaba-jokbal "Record → Broadcast" 구역과 매핑
 
 ---
 
@@ -93,7 +93,7 @@
 
 ---
 
-## helena-piano 웹진 ↔ parksy-audio 매핑
+## bayaba-jokbal 웹진 ↔ parksy-audio 매핑
 
 | 웹진 구역 | parksy-audio 자산 | 연결 방식 |
 |-----------|-------------------|-----------|

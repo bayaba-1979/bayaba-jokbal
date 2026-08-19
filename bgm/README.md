@@ -33,14 +33,14 @@
               ┌─────────────────▼─────────────────┐
               │  bgm/output/*.mp3                 │
               │  GitHub Pages CDN                 │
-              │  https://helena751107.github.io   │
-              │  /helena-piano/bgm/output/        │
+              │  https://bayaba-1979.github.io   │
+              │  /bayaba-jokbal/bgm/output/        │
               └─────────────────┬─────────────────┘
                                 │
          ┌──────────────────────┼──────────────────────┐
          │                      │                      │
          ▼                      ▼                      ▼
-   @HelenaPark-e7c       @helena_phone          기타 채널
+   @남성훈-f7i       @남성훈-f7i          기타 채널
    (찬양·클래식)          (연주·브이로그)        (배경음악)
 ```
 
@@ -72,7 +72,7 @@ bgm/
 2. GitHub Actions가 자동으로 렌더링 → `bgm/output/` 에 MP3 커밋
 3. GitHub Pages URL로 바로 사용 가능:
    ```
-   https://helena751107.github.io/helena-piano/bgm/output/곡제목.mp3
+   https://bayaba-1979.github.io/bayaba-jokbal/bgm/output/곡제목.mp3
    ```
 
 ### S21 로컬 렌더링
@@ -140,7 +140,7 @@ python3 composer_v2.py --emotion "peaceful" --style "chopin" --output bgm/midi/n
 ```markdown
 [배경음악 출처]
 BGM: Helena Piano Studio
-https://helena751107.github.io/helena-piano/bgm/output/{곡명}.mp3
+https://bayaba-1979.github.io/bayaba-jokbal/bgm/output/{곡명}.mp3
 ```
 
 ---

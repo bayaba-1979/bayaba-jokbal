@@ -1,12 +1,12 @@
 {
-  "id": "/helena-piano/",
+  "id": "/bayaba-jokbal/",
   "name": "Helena Piano · Studio",
   "short_name": "Helena Piano",
   "description": "연주·연습 기록과 YouTube 송출을 위한 미니 스튜디오. Practice · Repertoire · Record · Broadcast.",
   "lang": "ko",
   "dir": "ltr",
-  "start_url": "/helena-piano/",
-  "scope": "/helena-piano/",
+  "start_url": "/bayaba-jokbal/",
+  "scope": "/bayaba-jokbal/",
   "display": "standalone",
   "display_override": [
     "standalone",
@@ -24,31 +24,31 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/helena-piano/icons/favicon-32.png",
+      "src": "/bayaba-jokbal/icons/favicon-32.png",
       "sizes": "32x32",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/helena-piano/icons/icon-192.png",
+      "src": "/bayaba-jokbal/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/helena-piano/icons/icon-512.png",
+      "src": "/bayaba-jokbal/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/helena-piano/icons/icon-maskable-512.png",
+      "src": "/bayaba-jokbal/icons/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/helena-piano/icons/icon.svg",
+      "src": "/bayaba-jokbal/icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
