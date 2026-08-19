@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOKBAL · 프리미엄 대시보드</title>
+
+<!-- PWA / Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#181612">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JOKBAL">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="JOKBAL · 프리미엄 업무 수첩">
+<meta property="og:description" content="프리미엄 인포그래픽 업무 대시보드">
+<meta property="og:image" content="https://bayaba-1979.github.io/jokbal/icon-512.png">
+<meta property="og:site_name" content="JOKBAL">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JOKBAL · 프리미엄 업무 수첩">
+<meta name="twitter:description" content="프리미엄 인포그래픽 업무 대시보드">
+<meta name="twitter:image" content="https://bayaba-1979.github.io/jokbal/icon-512.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root{
+  --bg:#0a0908; --s1:#110f0d; --s2:#181612; --s3:#211c17; --bdr:#2a241b;
+  --g1:#c9a96e; --g2:#d4af37; --g3:#e0c88a; --g4:#b8934a;
+  --t1:#ede6d8; --t2:#9c907c; --t3:#5e5445; --gr:#4a9c6c; --rd:#c44a4a; --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter','Pretendard','Noto Sans KR',sans-serif;
+  background:var(--bg); color:var(--t1); min-height:100vh; line-height:1.5; overflow-x:hidden;
+}
+body::before{
+  content:''; position:fixed; top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at 15% 5%, rgba(201,169,110,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(201,169,110,0.03) 0%, transparent 45%);
+  pointer-events:none; z-index:0;
+}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35}
+.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:28px 20px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(201,169,110,0.08)}50%{box-shadow:0 0 35px rgba(201,169,110,0.18)}}
+
+header{
+  display:flex; align-items:center; gap:16px;
+  padding:24px 0 28px; margin-bottom:24px;
+  border-bottom:2px solid transparent;
+  border-image:linear-gradient(90deg, transparent 0%, var(--g1) 25%, var(--g2) 50%, var(--g1) 75%, transparent 100%) 1;
+}
+.logo{
+  width:52px;height:52px;flex-shrink:0;
+  background:linear-gradient(135deg, #1d1912 0%, #2a2318 50%, #1d1912 100%);
+  border:1.5px solid var(--g1); border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif KR',serif;font-size:1.3rem;font-weight:900;
+  color:var(--g2); animation:glow 3s infinite;
+}
+.header-info h1{font-family:'Noto Serif KR',serif;font-size:1.4rem;font-weight:900;color:var(--g2);letter-spacing:0.06em}
+.header-info .sub{font-size:0.68rem;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase}
+
+.stat-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px;
+}
+@media(max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+.stat-mini{
+  background:var(--s2); border:1px solid var(--bdr); border-radius:var(--r);
+  padding:16px; text-align:center; position:relative;
+}
+.stat-mini .val{font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:900;color:var(--g2)}
+.stat-mini .lbl{font-size:0.6rem;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase;margin-top:2px}
+
+/* 아코디언 */
+.accordion{display:flex;flex-direction:column;gap:12px}
+
+.aco{
+  background:var(--s2); border:1px solid var(--bdr); border-radius:var(--r);
+  overflow:hidden; transition:all 0.3s;
+}
+.aco:hover{border-color:#3a3020}
+.aco.open{border-color:#3a3222;box-shadow:0 0 0 1px rgba(201,169,110,0.06)}
+
+.aco-header{
+  display:flex; align-items:center; gap:12px;
+  padding:18px 22px; cursor:pointer; user-select:none;
+  transition:background 0.25s; position:relative;
+}
+.aco-header:hover{background:rgba(201,169,110,0.03)}
+.aco-header .ico{font-size:1.1rem;flex-shrink:0}
+.aco-header h3{
+  font-family:'Noto Serif KR',serif; font-size:0.9rem; font-weight:700;
+  color:var(--g1); letter-spacing:0.03em; flex:1;
+}
+.aco-header .chevron{
+  font-size:0.7rem; color:var(--t3); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.aco.open .aco-header .chevron{transform:rotate(180deg);color:var(--g1)}
+
+.aco-body{
+  max-height:0; overflow:hidden; transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.aco.open .aco-body{max-height:800px}
+.aco-body-inner{padding:0 22px 22px}
+
+.tag{
+  font-size:0.58rem;padding:2px 8px;border-radius:20px;letter-spacing:0.08em;
+  text-transform:uppercase;font-weight:700;
+  border:1px solid rgba(201,169,110,0.18);
+  background:rgba(201,169,110,0.06);color:var(--g1);white-space:nowrap;
+}
+
+.inp-row{display:flex;gap:8px;margin-bottom:14px}
+.inp-row input,textarea{
+  flex:1;background:var(--s3);border:1px solid var(--bdr);color:var(--t1);
+  padding:10px 14px;border-radius:9px;font-size:0.8rem;outline:none;
+  transition:all 0.25s;font-family:inherit;
+}
+.inp-row input:focus,textarea:focus{border-color:var(--g1);box-shadow:0 0 0 3px rgba(201,169,110,0.06)}
+textarea{resize:vertical;min-height:60px;width:100%;margin-bottom:8px}
+
+.btn{
+  background:linear-gradient(135deg, #2a2318 0%, #1d1912 100%);
+  border:1px solid var(--g1);color:var(--g2);padding:9px 16px;
+  border-radius:9px;font-weight:700;font-size:0.74rem;cursor:pointer;
+  letter-spacing:0.04em;white-space:nowrap;transition:all 0.3s;text-transform:uppercase;
+}
+.btn:hover{background:linear-gradient(135deg, var(--g1) 0%, var(--g4) 100%);color:#0a0908;border-color:transparent;box-shadow:0 4px 20px rgba(201,169,110,0.2);transform:translateY(-1px)}
+
+.tlist,.nlist{list-style:none;display:flex;flex-direction:column;gap:5px}
+.titem,.nitem{
+  display:flex;align-items:center;gap:10px;padding:11px 13px;
+  background:var(--s3);border-radius:9px;font-size:0.8rem;
+  transition:all 0.25s;border:1px solid transparent;
+}
+.titem:hover,.nitem:hover{background:#241e16;border-color:#2e2618}
+.titem.done .ttext{text-decoration:line-through;color:var(--t3)}
+.tcheck{
+  width:18px;height:18px;border:2px solid #3a3222;border-radius:5px;
+  cursor:pointer;flex-shrink:0;transition:all 0.3s;
+  display:flex;align-items:center;justify-content:center;
+}
+.tcheck:hover{border-color:var(--g1)}
+.titem.done .tcheck{background:var(--gr);border-color:var(--gr)}
+.titem.done .tcheck::after{content:'✓';color:#0a0908;font-weight:800;font-size:0.6rem}
+.ttext{flex:1;word-break:break-word}
+.delbtn{background:none;border:none;color:var(--t3);cursor:pointer;font-size:0.65rem;padding:4px 6px;border-radius:4px;opacity:0;transition:all 0.2s;flex-shrink:0}
+.titem:hover .delbtn,.nitem:hover .delbtn{opacity:1}
+.delbtn:hover{color:var(--rd);background:#2a1515}
+.empty{color:var(--t3);font-size:0.72rem;text-align:center;padding:22px 0;font-style:italic}
+.counter{font-size:0.65rem;color:var(--t3);margin-bottom:12px;letter-spacing:0.06em;text-transform:uppercase}
+.counter b{color:var(--g1)}
+
+.chart-section{display:flex;align-items:center;gap:20px}
+.donut-wrap{position:relative;width:100px;height:100px;flex-shrink:0}
+.donut-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut-bg{fill:none;stroke:var(--bdr);stroke-width:9}
+.donut-fg{fill:none;stroke:var(--g2);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 0.7s cubic-bezier(0.4,0,0.2,1)}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.donut-center .num{font-size:1.5rem;font-weight:900;color:var(--g2);font-family:'Inter',sans-serif}
+.donut-center .lbl{font-size:0.55rem;color:var(--t3);letter-spacing:0.04em;text-transform:uppercase}
+.donut-legend{display:flex;flex-direction:column;gap:6px;font-size:0.72rem}
+.donut-legend .leg{display:flex;align-items:center;gap:6px}
+.donut-legend .leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
+.donut-legend .leg-val{font-weight:700;color:var(--g1);margin-left:auto}
+
+.bar-chart{display:flex;align-items:flex-end;gap:10px;height:100px;padding-top:6px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+.bar-fill{width:100%;max-width:36px;border-radius:5px 5px 0 0;background:linear-gradient(180deg, var(--g2) 0%, var(--g1) 100%);transition:height 0.5s cubic-bezier(0.4,0,0.2,1);min-height:3px}
+.bar-fill:hover{filter:brightness(1.3)}
+.bar-lbl{font-size:0.58rem;color:var(--t3);text-align:center}
+
+.link-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:500px){.link-grid{grid-template-columns:1fr}}
+.link-card{
+  background:var(--s3);border:1px solid var(--bdr);border-radius:9px;
+  padding:16px;text-align:center;transition:all 0.3s;cursor:pointer;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.link-card:hover{background:#241e16;border-color:var(--g1);transform:translateY(-2px)}
+.link-card .lk-icon{font-size:1.6rem}
+.link-card .lk-title{font-size:0.75rem;font-weight:700;color:var(--g1)}
+.link-card .lk-sub{font-size:0.6rem;color:var(--t3)}
+
+.quote{
+  background:linear-gradient(135deg, #1d1912 0%, #18140e 100%);
+  border-left:3px solid var(--g1);padding:16px 20px;border-radius:0 9px 9px 0;position:relative;
+}
+.quote .qt{font-family:'Noto Serif KR',serif;color:var(--g3);font-size:0.8rem;font-weight:500}
+.quote .qs{color:var(--t3);font-size:0.64rem;margin-top:4px;letter-spacing:0.04em}
+
+.nmeta{font-size:0.62rem;color:var(--t3)}
+/* 히어로 */
+.hero{
+  display:grid; grid-template-columns:1fr 1fr; min-height:280px;
+  background:linear-gradient(135deg, #110f0d 0%, #1a1610 30%, #211c17 60%, #110f0d 100%);
+  border:1px solid var(--bdr); border-radius:var(--r);
+  overflow:hidden; margin-bottom:24px; position:relative;
+}
+.hero-img{
+  background:url('1785671691929.png') center/cover;
+  position:relative; min-height:280px;
+}
+.hero-img::after{
+  content:''; position:absolute; top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(135deg, rgba(17,15,13,0.5) 0%, rgba(17,15,13,0.15) 100%);
+}
+.hero-body{padding:36px 32px;display:flex;flex-direction:column;justify-content:center;gap:10px;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;letter-spacing:0.2em;color:var(--g1);font-weight:700;text-transform:uppercase;border:1px solid rgba(201,169,110,0.25);padding:5px 12px;border-radius:30px;width:fit-content;background:rgba(201,169,110,0.05)}
+.hero-badge .dot{width:5px;height:5px;background:var(--g2);border-radius:50%;animation:pulse 2s infinite}
+.hero-body h2{font-family:'Noto Serif KR',serif;font-size:1.8rem;font-weight:900;color:var(--g2);letter-spacing:0.04em;line-height:1.2;text-shadow:0 0 50px rgba(212,175,55,0.2)}
+.hero-body p{color:var(--t2);font-size:0.82rem;line-height:1.6}
+@media(max-width:600px){.hero{grid-template-columns:1fr}.hero-img{min-height:200px}}
+
+/* ====== YouTube Shorts 캐러셀 ====== */
+.yt-section{margin-bottom:20px}
+.yt-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:0 2px;
+}
+.yt-head h3{
+  font-family:'Noto Serif KR',serif;font-size:0.9rem;font-weight:700;
+  color:var(--g1);letter-spacing:0.03em;
+}
+.yt-carousel{
+  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;padding-bottom:4px;
+  scrollbar-width:thin;scrollbar-color:var(--bdr) transparent;
+}
+.yt-carousel::-webkit-scrollbar{height:3px}
+.yt-carousel::-webkit-scrollbar-track{background:transparent}
+.yt-carousel::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+.yt-card{
+  flex:0 0 220px;scroll-snap-align:start;
+  background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);
+  overflow:hidden;cursor:pointer;transition:all 0.3s;position:relative;
+}
+.yt-card:hover{border-color:var(--g1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.45)}
+.yt-card.active{border-color:var(--g1);box-shadow:0 0 0 1px rgba(201,169,110,0.15)}
+.yt-thumb{width:100%;aspect-ratio:9/16;background:var(--s3);position:relative;overflow:hidden}
+.yt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.yt-play-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.15);transition:background 0.3s;
+}
+.yt-card:hover .yt-play-overlay{background:rgba(0,0,0,0.25)}
+.yt-play-dot{
+  width:44px;height:44px;background:rgba(10,9,8,0.8);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--g1);transition:all 0.3s;
+}
+.yt-play-dot::after{
+  content:'';width:0;height:0;
+  border-left:13px solid var(--g2);border-top:8px solid transparent;border-bottom:8px solid transparent;
+  margin-left:3px;
+}
+.yt-card:hover .yt-play-dot{background:var(--g2);border-color:var(--g2)}
+.yt-card:hover .yt-play-dot::after{border-left-color:#0a0908}
+.yt-card iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
+.yt-label{
+  padding:9px 12px;font-size:0.64rem;color:var(--t3);
+  display:flex;align-items:center;gap:5px;
+}
+.yt-label .yt-idx{color:var(--g1);font-weight:700}
+.yt-nav{display:flex;align-items:center;gap:6px;margin-left:auto}
+.yt-nav-btn{
+  width:28px;height:28px;border-radius:50%;border:1px solid var(--bdr);
+  background:var(--s2);color:var(--g1);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;transition:all 0.25s;
+}
+.yt-nav-btn:hover{border-color:var(--g1);background:var(--s3);color:var(--g2)}
+@media(max-width:500px){.yt-card{flex:0 0 180px}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<div class="app">
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-body">
+      <div class="hero-badge"><span class="dot"></span> PREMIUM DASHBOARD v3.0</div>
+      <h2>JOKBAL<br>프리미엄 수첩</h2>
+      <p>직접 찍은 리얼 족발샷.<br>품격 있는 업무 공간.</p>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">족</div>
+    <div class="header-info">
+      <h1>JOKBAL</h1>
+      <div class="sub">Infographic Dashboard · v3.0</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:1.2rem;font-weight:900;color:var(--g2);font-family:'Inter',sans-serif" id="live-clock">00:00</div>
+      <div style="font-size:0.6rem;color:var(--t3)" id="live-date"></div>
+    </div>
+  </header>
+
+  <div class="stat-row">
+    <div class="stat-mini"><div class="val" id="st-total">0</div><div class="lbl">전체 할 일</div></div>
+    <div class="stat-mini"><div class="val" id="st-done">0</div><div class="lbl">완료</div></div>
+    <div class="stat-mini"><div class="val" id="st-notes">0</div><div class="lbl">메모</div></div>
+    <div class="stat-mini"><div class="val" id="st-rate">0%</div><div class="lbl">달성률</div></div>
+  </div>
+
+  <!-- YouTube Shorts 캐러셀 -->
+  <div class="yt-section">
+    <div class="yt-head">
+      <span style="font-size:1.1rem">📺</span>
+      <h3>YouTube Shorts</h3>
+      <span class="tag">Clips</span>
+      <div class="yt-nav">
+        <button class="yt-nav-btn" onclick="scrollYT(-1)" title="이전">◀</button>
+        <button class="yt-nav-btn" onclick="scrollYT(1)" title="다음">▶</button>
+      </div>
+    </div>
+    <div class="yt-carousel" id="yt-carousel"></div>
+  </div>
+
+  <div class="accordion">
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">📋</span><h3>할 일</h3><span class="tag">Tasks</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div class="counter">완료 <b id="done-cnt">0</b> / <b id="total-cnt">0</b></div>
+        <div class="inp-row">
+          <input type="text" id="task-inp" placeholder="새 할 일…" maxlength="200">
+          <button class="btn" onclick="addTask()">+ 추가</button>
+        </div>
+        <ul class="tlist" id="tlist"></ul>
+        <div class="empty" id="tempty">— 없음 —</div>
+      </div></div>
+    </div>
+
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">📝</span><h3>메모</h3><span class="tag">Notes</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="text" id="note-inp" placeholder="제목…" maxlength="100" style="width:100%;background:var(--s3);border:1px solid var(--bdr);color:var(--t1);padding:10px 14px;border-radius:9px;font-size:0.8rem;outline:none;font-family:inherit">
+          <textarea id="note-body" placeholder="내용…" rows="2"></textarea>
+          <button class="btn" onclick="addNote()" style="align-self:flex-end">기록</button>
+        </div>
+        <ul class="nlist" id="nlist" style="margin-top:14px"></ul>
+        <div class="empty" id="nempty">— 없음 —</div>
+      </div></div>
+    </div>
+
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">📊</span><h3>생산성 인포그래픽</h3><span class="tag">Chart</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div class="chart-section">
+          <div class="donut-wrap">
+            <svg viewBox="0 0 100 100">
+              <circle class="donut-bg" cx="50" cy="50" r="45"/>
+              <circle class="donut-fg" id="donut" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="283"/>
+            </svg>
+            <div class="donut-center"><div class="num" id="donut-pct">0%</div><div class="lbl">달성률</div></div>
+          </div>
+          <div class="donut-legend">
+            <div class="leg"><span class="leg-dot" style="background:var(--g2)"></span> 완료<span class="leg-val" id="leg-done">0</span></div>
+            <div class="leg"><span class="leg-dot" style="background:var(--bdr)"></span> 진행중<span class="leg-val" id="leg-pend">0</span></div>
+            <div class="leg"><span class="leg-dot" style="background:var(--t3)"></span> 전체<span class="leg-val" id="leg-total">0</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">📈</span><h3>주간 생산성</h3><span class="tag">Bar</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div class="bar-chart" id="bar-chart"></div>
+        <div style="text-align:center;font-size:0.6rem;color:var(--t3);margin-top:6px">요일별 완료 수</div>
+      </div></div>
+    </div>
+
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">🔗</span><h3>레포지토리</h3><span class="tag">Links</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div class="link-grid">
+          <a class="link-card" href="https://github.com/bayaba-1979/jokbal" target="_blank"><span class="lk-icon">🐷</span><span class="lk-title">GitHub</span><span class="lk-sub">bayaba-1979/jokbal</span></a>
+          <a class="link-card" href="https://bayaba-1979.github.io/jokbal/" target="_blank"><span class="lk-icon">🌐</span><span class="lk-title">Pages</span><span class="lk-sub">Live Site</span></a>
+          <a class="link-card" href="https://github.com/bayaba-1979/jokbal/actions" target="_blank"><span class="lk-icon">⚡</span><span class="lk-title">Actions</span><span class="lk-sub">Active</span></a>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="aco">
+      <div class="aco-header" onclick="toggleAco(this)">
+        <span class="ico">◆</span><h3>프리미엄</h3><span class="tag">Info</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="aco-body"><div class="aco-body-inner">
+        <div class="quote">
+          <div class="qt">측정할 수 없다면 관리할 수 없고, 관리할 수 없다면 개선할 수 없다.</div>
+          <div class="qs">— JOKBAL Dashboard —</div>
+        </div>
+        <div style="margin-top:14px;font-size:0.68rem;color:var(--t3);display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;justify-content:space-between"><span>저장소</span><span style="color:var(--t2)">LocalStorage</span></div>
+          <div style="display:flex;justify-content:space-between"><span>에디션</span><span style="color:var(--g1)">Gold Infographic</span></div>
+          <div style="display:flex;justify-content:space-between"><span>버전</span><span style="color:var(--t2)">v3.0</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const cv=document.getElementById('particles'),cx=cv.getContext('2d');
+let ps=[];
+function rs(){cv.width=window.innerWidth;cv.height=window.innerHeight}
+rs();window.addEventListener('resize',rs);
+for(let i=0;i<25;i++){ps.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1+0.3,vx:(Math.random()-0.5)*0.15,vy:(Math.random()-0.5)*0.15,a:Math.random()*0.35+0.08})}
+(function ap(){cx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=cv.width;if(p.x>cv.width)p.x=0;if(p.y<0)p.y=cv.height;if(p.y>cv.height)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(201,169,110,${p.a})`;cx.fill()});requestAnimationFrame(ap)})();
+
+const TK='jb-t3',NK='jb-n3',WK='jb-w3';
+function ld(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function sv(k,d){localStorage.setItem(k,JSON.stringify(d))}
+let tasks=ld(TK),notes=ld(NK),weekly=ld(WK);
+const days=['월','화','수','목','금','토','일'];
+if(!weekly.length||weekly.length!==7){weekly=[0,0,0,0,0,0,0];sv(WK,weekly)}
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function toggleAco(hdr){hdr.parentElement.classList.toggle('open')}
+
+function renderTasks(){
+  document.getElementById('tlist').innerHTML=tasks.map((t,i)=>`<li class="titem${t.done?' done':''}"><div class="tcheck" onclick="toggle(${i})"></div><span class="ttext">${esc(t.text)}</span><button class="delbtn" onclick="delT(${i})">✕</button></li>`).join('');
+  document.getElementById('tempty').style.display=tasks.length?'none':'block';
+  document.getElementById('done-cnt').textContent=tasks.filter(t=>t.done).length;
+  document.getElementById('total-cnt').textContent=tasks.length;updateStats();
+}
+function renderNotes(){
+  document.getElementById('nlist').innerHTML=notes.map((n,i)=>`<li class="nitem" style="flex-direction:column;align-items:flex-start;gap:3px"><div style="display:flex;width:100%;align-items:center;gap:6px"><strong style="flex:1;font-size:0.78rem;color:var(--g3)">${esc(n.title)}</strong><span class="nmeta">${n.date}</span><button class="delbtn" onclick="delN(${i})">✕</button></div><div style="font-size:0.72rem;color:var(--t2)">${esc(n.body||'')}</div></li>`).join('');
+  document.getElementById('nempty').style.display=notes.length?'none':'block';updateStats();
+}
+function updateStats(){
+  const total=tasks.length,done=tasks.filter(t=>t.done).length,rate=total===0?0:Math.round((done/total)*100);
+  document.getElementById('st-total').textContent=total;
+  document.getElementById('st-done').textContent=done;
+  document.getElementById('st-notes').textContent=notes.length;
+  document.getElementById('st-rate').textContent=rate+'%';
+  document.getElementById('donut').style.strokeDashoffset=283-(283*(rate/100));
+  document.getElementById('donut-pct').textContent=rate+'%';
+  document.getElementById('leg-done').textContent=done;
+  document.getElementById('leg-pend').textContent=total-done;
+  document.getElementById('leg-total').textContent=total;renderBars();
+}
+function renderBars(){
+  const max=Math.max(...weekly,1);
+  document.getElementById('bar-chart').innerHTML=weekly.map((v,i)=>`<div class="bar-col"><div class="bar-fill" style="height:${Math.max((v/max)*100,4)}%"></div><div class="bar-lbl">${days[i]}</div><div style="font-size:0.52rem;color:var(--g1);font-weight:700">${v}</div></div>`).join('');
+}
+function addTask(){const inp=document.getElementById('task-inp'),text=inp.value.trim();if(!text)return;tasks.unshift({text,done:false});sv(TK,tasks);inp.value='';renderTasks()}
+function toggle(i){tasks[i].done=!tasks[i].done;if(tasks[i].done){const d=new Date().getDay(),idx=d===0?6:d-1;weekly[idx]++;sv(WK,weekly)}sv(TK,tasks);renderTasks()}
+function delT(i){tasks.splice(i,1);sv(TK,tasks);renderTasks()}
+function addNote(){const ti=document.getElementById('note-inp'),tb=document.getElementById('note-body'),title=ti.value.trim();if(!title)return;notes.unshift({title,body:tb.value.trim(),date:new Date().toLocaleDateString('ko-KR')});sv(NK,notes);ti.value='';tb.value='';renderNotes()}
+function delN(i){notes.splice(i,1);sv(NK,notes);renderNotes()}
+function tick(){const n=new Date();document.getElementById('live-clock').textContent=n.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('live-date').textContent=n.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'})}
+document.getElementById('task-inp').addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
+document.getElementById('note-inp').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('note-body').focus()});
+// ── YouTube Shorts ──
+const YT_SHORTS=[
+  'v5kEp6KDOho',
+  // 여기에 새 쇼츠 video ID 추가 (쉼표 잊지 말 것)
+];
+function renderYT(){
+  document.getElementById('yt-carousel').innerHTML=YT_SHORTS.map((id,i)=>`
+    <div class="yt-card" data-yt="${id}" onclick="loadYT(this)">
+      <div class="yt-thumb">
+        <img src="https://img.youtube.com/vi/${id}/sddefault.jpg" alt="Short #${i+1}" loading="lazy">
+        <div class="yt-play-overlay"><div class="yt-play-dot"></div></div>
+      </div>
+      <div class="yt-label"><span class="yt-idx">#${i+1}</span> YouTube Short</div>
+    </div>`).join('');
+}
+function loadYT(card){
+  const id=card.dataset.yt;
+  if(card.querySelector('iframe')){card.classList.toggle('active');return}
+  card.querySelector('.yt-thumb').innerHTML=
+    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" allow="autoplay;encrypted-media;picture-in-picture" allowfullscreen></iframe>`;
+  card.classList.add('active');
+}
+function scrollYT(dir){
+  const c=document.getElementById('yt-carousel');
+  if(!c)return;
+  c.scrollBy({left:dir*(window.innerWidth<500?192:232),behavior:'smooth'});
+}
+renderYT();
+
+renderTasks();renderNotes();tick();setInterval(tick,30000);
+document.querySelector('.aco').classList.add('open');
+</script>
+</body>
+</html>

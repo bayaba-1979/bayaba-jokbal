@@ -1,0 +1,8 @@
+# JOKBAL 텔레그램 리포팅 라인 설정
+# 파일명을 report.conf 로 변경 후 사용하세요.
+
+# 봇 토큰 (zokbal_bot)
+BOT_TOKEN=8949674590:AAGiMBT-9J_v30lIUZ73mxMAUTEKJEGFsSs
+
+# 채팅 ID (봇에게 /start 보낸 후 ./report --check 로 확인)
+CHAT_ID=여기에_chat_id_입력

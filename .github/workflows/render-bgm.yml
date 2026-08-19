@@ -1,0 +1,85 @@
+name: Render BGM
+
+on:
+  push:
+    paths:
+      - 'bgm/midi/*.mid'
+      - 'bgm/midi/*.midi'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  OUTPUT_DIR: bgm/output
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      # SoundFont 결정:
+      # - Salamander Grand Piano v3 는 SFZ2 + ARIA 확장(keyswitch·note-selfmasking 등)으로
+      #   Plogue sforzando 전용. fluidsynth 는 ARIA opcode 를 지원하지 않아 로드해도 제대로
+      #   안 울림. 또한 archive.org 샘플 URL 이 `.tar` 로 잘못돼 404 → 빌드 스텝 자체가 실패.
+      #   → fluidsynth 와 100% 호환되는 Fluid R3 GM 으로 렌더한다 (결정: 2026-08-16).
+      - name: Install FluidSynth + FFmpeg + Fluid R3 GM
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fluidsynth ffmpeg fluid-soundfont-gm
+          echo "✅ FluidSynth $(fluidsynth --version | head -1)"
+          ls -lh /usr/share/sounds/sf2/FluidR3_GM.sf2
+
+      - name: Render MIDI → MP3
+        run: |
+          SF="/usr/share/sounds/sf2/FluidR3_GM.sf2"
+          SF_NAME="Fluid R3 GM"
+
+          echo "🎹 SoundFont: $SF_NAME"
+          mkdir -p "$OUTPUT_DIR"
+          count=0
+
+          for midi in bgm/midi/*.mid bgm/midi/*.midi; do
+            [ -f "$midi" ] || continue
+            name=$(basename "$midi" | sed 's/\.mid[i]*$//')
+            wav="$OUTPUT_DIR/$name.wav"
+            mp3="$OUTPUT_DIR/$name.mp3"
+
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "🎵 $name"
+
+            # Fast render — bypass audio driver
+            fluidsynth -ni -F "$wav" -O s16 -r 44100 -g 1.5 \
+              "$SF" "$midi" 2>&1 | grep -v "pw.conf\|GLib" | tail -1
+
+            # WAV → MP3 (320kbps high quality)
+            ffmpeg -y -i "$wav" \
+              -codec:a libmp3lame -b:a 320k \
+              -filter:a "loudnorm=I=-16:LRA=11:TP=-1.5" \
+              "$mp3" 2>/dev/null
+
+            rm -f "$wav"
+            size=$(du -h "$mp3" | cut -f1)
+            dur=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$mp3" 2>/dev/null || echo "?")
+            echo "   ✅ $mp3 (${size}, ${dur}s)"
+            count=$((count + 1))
+          done
+
+          echo "RENDER_COUNT=$count" >> $GITHUB_ENV
+          echo "SF_NAME=$SF_NAME" >> $GITHUB_ENV
+
+      - name: Commit rendered MP3s
+        if: env.RENDER_COUNT > 0
+        run: |
+          git config user.name "Helena BGM Studio"
+          git config user.email "bgm@helena.piano"
+          git add bgm/output/
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "bgm: render ${RENDER_COUNT} track(s) — ${SF_NAME} [skip ci]"
+            git push
+            echo "✅ Pushed ${RENDER_COUNT} tracks"
+          fi
