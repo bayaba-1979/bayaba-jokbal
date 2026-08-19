@@ -1,8 +1,8 @@
 {
   "id": "/bayaba-jokbal/",
-  "name": "Bayaba Jokbal · Studio",
-  "short_name": "Bayaba Jokbal",
-  "description": "연주·연습 기록과 YouTube 송출을 위한 미니 스튜디오. Practice · Repertoire · Record · Broadcast.",
+  "name": "Bayaba Jokbal · 족발",
+  "short_name": "족발",
+  "description": "바야바 족발. 프리미엄 족발 콘텐츠와 브랜드 허브.",
   "lang": "ko",
   "dir": "ltr",
   "start_url": "/bayaba-jokbal/",
@@ -17,9 +17,8 @@
   "background_color": "#0a0908",
   "theme_color": "#0a0908",
   "categories": [
-    "music",
-    "education",
-    "entertainment"
+    "food",
+    "lifestyle"
   ],
   "prefer_related_applications": false,
   "icons": [
