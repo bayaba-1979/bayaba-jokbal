@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0c88a"/>
+      <stop offset="0.5" stop-color="#d4af37"/>
+      <stop offset="1" stop-color="#b8934a"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#181612"/>
+  <rect x="4" y="4" width="92" height="92" rx="18" fill="none" stroke="url(#g)" stroke-width="3"/>
+  <text x="50" y="70" font-family="'Noto Serif KR', serif" font-size="54" font-weight="900" text-anchor="middle" fill="url(#g)">족</text>
+</svg>

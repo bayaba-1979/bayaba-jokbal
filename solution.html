@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>만수점 매출 2배 플레이북 — 전 세계 검증 전략 적용</title>
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#181612">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="만수점 매출 2배 플레이북">
+<meta property="og:description" content="Costco·Panera·Starbucks·McDonald's 등 전 세계가 검증한 전략을 족발집에 그대로 적용해 매출 100%+ 올리는 방법">
+<meta property="og:site_name" content="만수점 매출 2배 플레이북">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root{
+  --bg:#0a0908; --s1:#110f0d; --s2:#181612; --s3:#211c17; --bdr:#2a241b;
+  --g1:#c9a96e; --g2:#d4af37; --g3:#e0c88a; --g4:#b8934a;
+  --t1:#ede6d8; --t2:#9c907c; --t3:#5e5445; --gr:#4a9c6c; --rd:#c44a4a; --bl:#5b8fd6; --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter','Pretendard','Noto Sans KR',sans-serif;
+  background:var(--bg); color:var(--t1); min-height:100vh; line-height:1.6; overflow-x:hidden;
+}
+body::before{
+  content:''; position:fixed; top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at 15% 5%, rgba(201,169,110,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(201,169,110,0.04) 0%, transparent 45%);
+  pointer-events:none; z-index:0;
+}
+.app{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:28px 20px 64px}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(201,169,110,0.08)}50%{box-shadow:0 0 35px rgba(201,169,110,0.18)}}
+
+.hero{
+  background:linear-gradient(135deg, #110f0d 0%, #1a1610 30%, #211c17 60%, #110f0d 100%);
+  border:1px solid var(--bdr); border-radius:var(--r); overflow:hidden;
+  margin-bottom:24px; position:relative; padding:36px 32px;
+}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;letter-spacing:0.2em;color:var(--g1);font-weight:700;text-transform:uppercase;border:1px solid rgba(201,169,110,0.25);padding:5px 12px;border-radius:30px;width:fit-content;background:rgba(201,169,110,0.05);margin-bottom:16px}
+.hero-badge .dot{width:5px;height:5px;background:var(--g2);border-radius:50%;animation:pulse 2s infinite}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:1.85rem;font-weight:900;color:var(--g2);letter-spacing:0.03em;line-height:1.25;text-shadow:0 0 50px rgba(212,175,55,0.2)}
+.hero .sub{margin-top:14px;color:var(--t2);font-size:0.88rem;line-height:1.8}
+.hero .lead{margin-top:16px;padding:14px 18px;background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.16);border-radius:10px;color:var(--g3);font-size:0.82rem;line-height:1.8}
+.hero .lead b{color:var(--g2)}
+
+header{
+  display:flex; align-items:center; gap:16px; padding:24px 0 28px; margin-bottom:24px;
+  border-bottom:2px solid transparent;
+  border-image:linear-gradient(90deg, transparent 0%, var(--g1) 25%, var(--g2) 50%, var(--g1) 75%, transparent 100%) 1;
+}
+.logo{width:52px;height:52px;flex-shrink:0;background:linear-gradient(135deg,#1d1912 0%,#2a2318 50%,#1d1912 100%);border:1.5px solid var(--g1);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:1.3rem;font-weight:900;color:var(--g2);animation:glow 3s infinite}
+.header-info h1{font-family:'Noto Serif KR',serif;font-size:1.35rem;font-weight:900;color:var(--g2);letter-spacing:0.06em}
+.header-info .sub{font-size:0.66rem;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase}
+.header-nav{margin-left:auto;display:flex;gap:8px}
+.header-nav a{font-size:0.7rem;color:var(--g1);text-decoration:none;border:1px solid var(--bdr);padding:7px 12px;border-radius:8px;transition:all 0.25s}
+.header-nav a:hover{border-color:var(--g1);background:var(--s3)}
+
+.sec-title{display:flex;align-items:center;gap:12px;margin:32px 0 14px}
+.sec-title .ico{font-size:1.3rem}
+.sec-title h2{font-family:'Noto Serif KR',serif;font-size:1.05rem;font-weight:900;color:var(--g1);letter-spacing:0.02em;line-height:1.4}
+.sec-title .bar{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
+
+/* 성장 프레임 */
+.frame{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.frame h3{font-family:'Noto Serif KR',serif;font-size:0.95rem;font-weight:900;color:var(--g2);margin-bottom:10px}
+.frame p{font-size:0.78rem;color:var(--t2);line-height:1.7}
+.frame .formula{font-family:'Inter',sans-serif;font-size:1rem;font-weight:800;color:var(--g3);background:var(--s3);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px;text-align:center;margin:12px 0;letter-spacing:0.02em}
+.frame .levers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+@media(max-width:600px){.frame .levers{grid-template-columns:repeat(2,1fr)}}
+.lever{background:var(--s3);border:1px solid var(--bdr);border-radius:10px;padding:13px;text-align:center}
+.lever .pct{font-family:'Inter',sans-serif;font-size:1.25rem;font-weight:900;color:var(--g2)}
+.lever .nm{font-size:0.58rem;color:var(--t3);margin-top:3px;letter-spacing:0.04em}
+.lever .x{font-size:0.62rem;color:var(--gr);font-weight:700;margin-top:2px}
+
+/* 전략 카드 */
+.strat{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.strat .s-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.strat .s-no{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:900;color:var(--g2);flex-shrink:0}
+.strat .s-head h3{font-family:'Noto Serif KR',serif;font-size:0.95rem;font-weight:900;color:var(--g1);flex:1;line-height:1.4}
+.strat .ref{display:inline-block;font-size:0.56rem;font-weight:700;padding:3px 9px;border-radius:20px;border:1px solid rgba(91,143,214,0.3);background:rgba(91,143,214,0.08);color:var(--bl);white-space:nowrap;letter-spacing:0.04em}
+.strat .global{background:var(--s3);border-radius:9px;padding:12px 16px;margin-bottom:10px;border-left:3px solid var(--bl)}
+.strat .global .lbl{font-size:0.56rem;font-weight:800;color:var(--bl);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.strat .global p{font-size:0.74rem;color:var(--t2);line-height:1.65}
+.strat .global b{color:var(--g3)}
+.strat .apply{background:var(--s3);border-radius:9px;padding:13px 16px;border-left:3px solid var(--g2)}
+.strat .apply .lbl{font-size:0.56rem;font-weight:800;color:var(--g2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+.strat .apply p{font-size:0.78rem;color:var(--t1);line-height:1.7}
+.strat .apply ul{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:5px}
+.strat .apply li{position:relative;padding-left:16px;font-size:0.76rem;color:var(--t2);line-height:1.6}
+.strat .apply li::before{content:'▸';position:absolute;left:0;color:var(--g1)}
+.strat .apply li b{color:var(--g3)}
+
+/* 로드맵 */
+.road{width:100%;border-collapse:collapse;font-size:0.74rem}
+.road th,.road td{padding:12px;text-align:left;border-bottom:1px solid var(--bdr);vertical-align:top}
+.road th{color:var(--g1);font-family:'Noto Serif KR',serif;font-size:0.72rem;background:rgba(201,169,110,0.04)}
+.road td:first-child{color:var(--g2);font-weight:800;white-space:nowrap;font-family:'Inter',sans-serif}
+.road td{color:var(--t2);line-height:1.6}
+.road b{color:var(--g3)}
+
+.quote{background:linear-gradient(135deg, #1d1912 0%, #18140e 100%);border-left:3px solid var(--g1);padding:16px 20px;border-radius:0 9px 9px 0;position:relative;margin-top:16px}
+.quote .qt{font-family:'Noto Serif KR',serif;color:var(--g3);font-size:0.84rem;font-weight:500;line-height:1.7}
+.quote .qs{color:var(--t3);font-size:0.64rem;margin-top:4px;letter-spacing:0.04em}
+
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--bdr);text-align:center;color:var(--t3);font-size:0.64rem;letter-spacing:0.04em;line-height:1.7}
+footer a{color:var(--g1);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="hero">
+    <div class="hero-badge"><span class="dot"></span> GLOBAL RETAIL PLAYBOOK · 매출 2배</div>
+    <h1>전 세계가 검증한 전략으로<br>만수점 매출 100% 이상 올리기</h1>
+    <div class="sub">저놈들이 우리 손님을 다 따먹고 있습니다. 화만 내지 말고, 전 세계 소매·외식 업계가 이미 증명해낸 전략을 그대로 족발집에 갖다 붙이면 됩니다.</div>
+    <div class="lead"><b>핵심 공식:</b> 매출 = 객단가 × 주문 건수. <b>객단가 +30%, 재방문 +30%, 신규 +30%, 채널 +20%</b> 이 네 개를 동시에 올리면 1.3 × 1.3 × 1.3 × 1.2 ≈ <b>2.6배(160% 성장)</b>이 됩니다. 아래 전략 하나하나가 이 네 가지 지렛대를 움직입니다.</div>
+  </div>
+
+  <header>
+    <div class="logo">족</div>
+    <div class="header-info">
+      <h1>매출 2배 플레이북</h1>
+      <div class="sub">Global Retail Benchmarks · Applied to Jokbal</div>
+    </div>
+    <div class="header-nav">
+      <a href="index.html">핵심 요약</a>
+      <a href="solution.html" style="border-color:var(--g1)">매출 2배 플레이북</a>
+    </div>
+  </header>
+
+  <!-- 성장 프레임 -->
+  <div class="sec-title"><span class="ico">📈</span><h2>매출 2배의 구조 — 네 개의 지렛대</h2><span class="bar"></span></div>
+  <div class="frame">
+    <p>매출을 2배로 만들려면 한 가지에 올인하면 안 됩니다. <b>객단가 · 재방문 · 신규 · 채널</b> 네 개를 동시에 소폭씩 올리는 게 가장 확실합니다. 아래 수치만 달성해도 160% 성장입니다.</p>
+    <div class="formula">매출 = 객단가 × 주문 건수 = 1.3 × 1.3 × 1.3 × 1.2 ≈ 2.6배</div>
+    <div class="levers">
+      <div class="lever"><div class="pct">+30%</div><div class="nm">객단가</div><div class="x">번들·업셀</div></div>
+      <div class="lever"><div class="pct">+30%</div><div class="nm">재방문</div><div class="x">멤버십·구독</div></div>
+      <div class="lever"><div class="pct">+30%</div><div class="nm">신규 유입</div><div class="x">미끼·포장</div></div>
+      <div class="lever"><div class="pct">+20%</div><div class="nm">채널 확장</div><div class="x">심야·단체·자체배달</div></div>
+    </div>
+  </div>
+
+  <!-- 전략 1 -->
+  <div class="sec-title"><span class="ico">🎯</span><h2>전략 1 · 로스리더 미끼 — 손님을 들여보내는 '떡밥'</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">1</span><h3>원가라도 팔아서 발을 들이게 한 뒤, 나머지로 남긴다</h3><span class="ref">COSTCO</span></div>
+    <div class="global"><div class="lbl">세계 사례</div><p>코스트코는 <b>로티세리 치킨을 4.99달러(원가 이하)</b>, 핫도그+음료 콤보를 1.5달러(1985년부터 가격 동결)로 팝니다. 치킨은 연 1억 3,700만 마리. 손해 보지만 <b>손님 장바구니가 평균 150~200달러</b>까지 불어나는 '트래픽 엔진'이기 때문입니다.</p></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <p><b>"미니족 9,900원"</b>을 원가 수준으로 깔아두세요. 손님은 미끼를 담으러 들어왔다가 막국수·주먹밥·음료·주류를 같이 담습니다. 미끼 주문 10건 중 6건은 사이드를 추가하게 만드는 게 목표입니다.</p>
+      <ul>
+        <li>앱/매장 진열 맨 앞에 <b>미끼 메뉴</b> 배치 (코스트코가 치킨을 매장 맨 뒤에 두는 것과 같은 '동선 설계')</li>
+        <li>미끼 메뉴 선택 시 <b>"막국수 2,000원 추가?"</b> 팝업 자동 노출</li>
+        <li>목표: 미끼 손님의 <b>사이드 부착률 60%+</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전략 2 -->
+  <div class="sec-title"><span class="ico">📦</span><h2>전략 2 · 번들 &amp; 가격 사다리 — 세 개 가격으로 객단가 올리기</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">2</span><h3>3만 / 4만 / 5만 세 단계 세트를 깔아 손님이 '중간'을 고르게 만든다</h3><span class="ref">TACO BELL · DOMINO'S · CHILI'S</span></div>
+    <div class="global"><div class="lbl">세계 사례</div><p>타코벨은 <b>5달러/7달러/9달러 'Luxe Box'</b> 3단계로, 도미노는 <b>'Mix &amp; Match' 2개 조합</b>으로 객단가를 올립니다. 칠리스(Chili's)는 번들로 <b>주가가 40달러→180달러</b>까지 치솟는 기적의 턴어라운드를 만들었고, 스페인 '힙 피시'는 번들로 <b>객단가 36% 상승</b>을 기록했습니다.</p></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <p>족발도 똑같이 <b>3단계 세트</b>를 만드세요. 가운데(4만 원대)가 가장 합리적으로 보여서 손님 대부분이 그걸 고릅니다. 단품만 팔 때보다 객단가가 확 오릅니다.</p>
+      <ul>
+        <li><b>실속 세트 29,000원</b> — 미니족 + 주먹밥 + 음료 (1인·혼술)</li>
+        <li><b>스탠다드 세트 39,000원</b> — 족발(중) + 막국수 + 주먹밥 (2인) ← 가장 많이 팔릴 것</li>
+        <li><b>프리미엄 세트 49,000원</b> — 족발+보쌈 반반 + 막국수 + 음료 2 (가족·모임)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전략 3 -->
+  <div class="sec-title"><span class="ico">🔁</span><h2>전략 3 · 구독 &amp; 멤버십 — 한 번 온 손님을 '매주 오는 손님'으로</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">3</span><h3>월 정액 '사이드 무제한'으로 재방문 루틴을 심는다</h3><span class="ref">PANERA · STARBUCKS</span></div>
+    <div class="global"><div class="lbl">세계 사례</div><p>파네라브레드의 <b>'언리미티드 씁 클럽'(월 10~15달러 음료 무제한)</b>은 전체 거래의 <b>4분의 1</b>을 차지하고, 공짜 음료 받으러 온 손님의 <b>70%가 빵·샌드위치를 같이 삽니다</b>. 회원 1명 평생가치는 약 780달러. 스타벅스는 <b>매출의 57%가 리워즈 멤버</b>에서 나옵니다.</p></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <p>족발은 음료보다 <b>막국수·주먹밥·사이드</b>가 원가가 쌉니다. 이걸 정액으로 풀어 '매주 오는 이유'를 만드세요.</p>
+      <ul>
+        <li><b>"막국수 무제한 패스 월 9,900원"</b> — 공짜 막국수 받으러 왔다가 족발·주류 구매 (음식 부착률 노림)</li>
+        <li><b>스탬프 적립:</b> 족발 10팩 주문 시 <b>1팩 무료</b> (단골 카드)</li>
+        <li><b>정기 배달 구독:</b> "매주 금요일 저녁 자동 배달" 가입 시 매회 사이드 1개 무료</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전략 4 -->
+  <div class="sec-title"><span class="ico">⬆️</span><h2>전략 4 · 업셀 &amp; 메뉴 정리 — 이미 온 손님에게 '한 끼 더' 팔기</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">4</span><h3>계산 직전 '한 가지만 더' 물어보고, 안 팔리는 메뉴는 뺀다</h3><span class="ref">MCDONALD'S · MENU ENGINEERING</span></div>
+    <div class="global"><div class="lbl">세계 사례</div><p>맥도날드는 주문 시 <b>추가·업그레이드를 제안해 매출을 15~40%</b> 올립니다. '메뉴 엔지니어링' 기법으로는 메뉴를 <b>스타(잘 팔리고 남는 것) / 노역마(잘 팔리지만 남는 게 적은 것) / 퍼즐(남지만 안 팔리는 것) / 개(둘 다 안 되는 것)</b>로 나눠, 스타는 키우고 개는 과감히 뺍니다.</p></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <ul>
+        <li>주문 마지막에 <b>"막국수 2,000원 / 주먹밥 1,500원 추가 어떠세요?"</b> 체크아웃 업셀</li>
+        <li>족발(대)·보쌈은 <b>스타</b>로 메뉴판 맨 위 크게, 잘 안 나가는 메뉴는 <b>과감히 삭제</b>해 선택을 단순화</li>
+        <li>막국수(노역마)는 <b>가격 소폭 인상 + 세트로 묶어</b> 마진 확보</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전략 5 -->
+  <div class="sec-title"><span class="ico">🌙</span><h2>전략 5 · 심야 독점 &amp; 시간대 세일 — 저놈들이 비는 시간에 다 먹기</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">5</span><h3>밤 10시 이후 야식 수요를 홀 마감 전 '마감 세일'로 당겨온다</h3><span class="ref">HAPPY HOUR · FLASH SALE</span></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <ul>
+        <li>홀 마감 직전(밤 10~11시) <b>배달앱을 닫지 말고</b> '남은 수량 마감 세일 5,000원 할인'으로 재고 털기</li>
+        <li><b>심야 야식 세트</b> (족발 소포장 + 막국수) — 1인 야식족 전용 메뉴</li>
+        <li>재고(생족) 로스가 0에 가까워지면 그 자체가 마진 개선</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 전략 6 -->
+  <div class="sec-title"><span class="ico">📱</span><h2>전략 6 · 자체 채널(D2C) — 수수료 안 내고 내 손님과 직접 연결</h2><span class="bar"></span></div>
+  <div class="strat">
+    <div class="s-head"><span class="s-no">6</span><h3>배달앱은 '첫 만남'용으로만 쓰고, 두 번째부터는 내 채널로</h3><span class="ref">D2C · RETARGETING</span></div>
+    <div class="apply"><div class="lbl">만수점 적용</div>
+      <ul>
+        <li>배달 박스마다 <b>직주문 쿠폰·자석 스티커</b> 삽입 ("전화 주문 시 사이드 5,000원 상당 무료")</li>
+        <li>포장·홀 고객 <b>전화번호 수집 → 비 오는 날·금요일 저녁 알림톡</b> 리타게팅</li>
+        <li>만수동 1~2km는 <b>자체 배달</b>로 대행비(3~4천 원) 절감</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 로드맵 -->
+  <div class="sec-title"><span class="ico">🗓️</span><h2>90일 실행 로드맵</h2><span class="bar"></span></div>
+  <table class="road">
+    <tr><th>기간</th><th>할 일</th><th>목표 성과</th></tr>
+    <tr><td>1~30일</td><td>미끼 메뉴 + 3단계 세트 개설 · 포장 4,000원 할인 + 막국수 · 배달 박스 쿠폰</td><td>객단가 <b>+15%</b>, 신규 주문 <b>+15%</b></td></tr>
+    <tr><td>31~60일</td><td>막국수 무제한 패스 + 스탬프 적립 출시 · 단골 알림톡 시작</td><td>재방문 <b>+30%</b>, 객단가 <b>+30%</b></td></tr>
+    <tr><td>61~90일</td><td>자체 배달 정착 · 회식 패키지 · 메뉴 정리(안 팔리는 것 제거) · 심야 세일</td><td>채널 <b>+20%</b>, 종합 <b>매출 100%+</b></td></tr>
+  </table>
+
+  <div class="quote">
+    <div class="qt">코스트코는 치킨에서 손해를 봐도 장바구니로 이깁니다. 우리도 '미끼 메뉴'에서 조금 남기고, 세트·사이드·단골에서 확실하게 남기면 됩니다. 손익을 먼저 움직이는 사람이 이깁니다.</div>
+    <div class="qs">— 만수점 매출 2배 플레이북 —</div>
+  </div>
+
+  <footer>
+    가장맛있는족발 만수점 · 전 세계 검증 전략 기반 매출 2배 플레이북 v1.0<br>
+    참고 자료: <a href="docs/원문-03-글로벌-벤치마킹-리서치.md">docs 폴더</a> · <a href="index.html">핵심 요약</a>
+  </footer>
+</div>
+</body>
+</html>

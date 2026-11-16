@@ -1,0 +1,23 @@
+{
+  "name": "bayaba-jokbal",
+  "version": "1.0.0",
+  "description": "![Bayaba Jokbal — a classical webzine rendered on one phone](assets/social-preview.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bayaba-1979/bayaba-jokbal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bayaba-1979/bayaba-jokbal/issues"
+  },
+  "homepage": "https://github.com/bayaba-1979/bayaba-jokbal#readme",
+  "dependencies": {
+    "playwright": "^1.65.1"
+  }
+}

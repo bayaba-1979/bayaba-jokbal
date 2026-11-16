@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "족발 사업 마스터 데이터",
+    "description": "마왕족발 백운역점 · 가장맛있는족발 만수점 — 현재 프라이싱·메뉴·배달채널 마스터(SSOT)",
+    "updated": "2026-11-16",
+    "note": "가격은 공개 데이터 기반 '확인' 항목과 배달앱 파싱이 필요한 '조사필요' 항목을 source 필드로 구분함. 실배달앱 가격은 사장님 계정 로그인 후 scripts/scrape-delivery.mjs 로 갱신."
+  },
+  "stores": [
+    {
+      "id": "mawang-baegun",
+      "name": "마왕족발 백운역점",
+      "brand": "마왕족발",
+      "region": "인천 부평구",
+      "address": "인천광역시 부평구 마장로36번길 26 1층",
+      "hours": "월~금 12:00~03:00 · 토 11:00~03:00 · 일 11:00~23:00",
+      "channels": { "hall": true, "takeout": true, "delivery": true },
+      "menu": [
+        { "category": "대표", "items": [
+          { "name": "마왕통구이(소)", "price": 30000, "source": "랜딩(기존)", "verified": true },
+          { "name": "쟁반국수", "price": 7000, "source": "랜딩(기존)", "verified": true }
+        ]},
+        { "category": "족발/통구이", "items": [
+          { "name": "마왕통구이(중/대)", "price": null, "source": "조사필요", "verified": false },
+          { "name": "족발(소/중/대)", "price": null, "source": "조사필요", "verified": false }
+        ]},
+        { "category": "사이드", "items": [
+          { "name": "사이드 메뉴 전체", "price": null, "source": "조사필요", "verified": false }
+        ]}
+      ],
+      "delivery_platforms": {
+        "baemin":      { "status": "조사필요", "menu_registered": null, "commission": "10~15%", "note": "사장님 계정 로그인 필요" },
+        "yogiyo":      { "status": "조사필요", "menu_registered": null, "commission": "~12%",   "note": "사장님 계정 로그인 필요" },
+        "coupang_eats":{ "status": "조사필요", "menu_registered": null, "commission": "~9.8%",  "note": "사장님 계정 로그인 필요" },
+        "naver_place": { "status": "오픈이슈", "menu_registered": null, "commission": null,     "note": "네이버 플레이스 자동화 — 추후 진행" }
+      }
+    },
+    {
+      "id": "gamjat-mansu",
+      "name": "가장맛있는족발 인천만수점",
+      "brand": "가장맛있는족발",
+      "region": "인천 남동구 만수동",
+      "address": "인천광역시 남동구 하촌로71번길 9 1층",
+      "hours": "저녁 영업 · 배달 가능",
+      "opened_at": "1993-06-30",
+      "channels": { "hall": true, "takeout": true, "delivery": true },
+      "menu": [
+        { "category": "대표", "items": [
+          { "name": "족발(소)", "price": null, "source": "랜딩(기존)", "verified": false },
+          { "name": "쟁반국수", "price": null, "source": "랜딩(기존)", "verified": false },
+          { "name": "굴보쌈(계절)", "price": null, "source": "랜딩(기존)", "verified": false }
+        ]},
+        { "category": "족발", "items": [
+          { "name": "족발 앞발(대)", "price": 41000, "cost_rate": 0.22, "cost": 9025, "source": "올마나마", "verified": true },
+          { "name": "족발 뒷발", "price": 36500, "source": "블로그/플레이스", "verified": true },
+          { "name": "실속족발(1~2인)", "price": 25000, "source": "사장님 운영중", "verified": true },
+          { "name": "순살 1인 세트", "price": 29000, "source": "플레이스", "verified": true }
+        ]},
+        { "category": "불족발/보쌈", "items": [
+          { "name": "직화불족발", "price": 44000, "cost_rate": 0.199, "cost": 7956, "source": "올마나마", "verified": true },
+          { "name": "반반족발", "price": 45500, "source": "블로그", "verified": true },
+          { "name": "보쌈(중)", "price": 37000, "cost_rate": 0.20, "cost": 7403, "source": "올마나마", "verified": true },
+          { "name": "보쌈(대)", "price": 43000, "source": "블로그", "verified": true }
+        ]},
+        { "category": "사이드", "items": [
+          { "name": "쟁반국수(소/중/대)", "price": 4000, "price_max": 17000, "source": "플레이스", "verified": true },
+          { "name": "날치알 주먹밥", "price": 4000, "source": "플레이스", "verified": true }
+        ]}
+      ],
+      "delivery_platforms": {
+        "baemin":      { "status": "조사필요", "menu_registered": null, "commission": "10~15%", "note": "사장님 계정 로그인 필요" },
+        "yogiyo":      { "status": "조사필요", "menu_registered": null, "commission": "~12%",   "note": "사장님 계정 로그인 필요" },
+        "coupang_eats":{ "status": "조사필요", "menu_registered": null, "commission": "~9.8%",  "note": "사장님 계정 로그인 필요" },
+        "naver_place": { "status": "오픈이슈", "menu_registered": null, "commission": null,     "note": "네이버 플레이스 자동화 — 추후 진행" }
+      }
+    }
+  ]
+}

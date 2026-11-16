@@ -1,1 +1,6 @@
 bgm/salamander.sf2
+
+# Playwright / 스크래핑
+node_modules/
+data/.pw-profile/
+data/scrape/
