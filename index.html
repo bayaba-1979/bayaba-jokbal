@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="족발 비즈니스 솔루션 연구소 — 마왕족발 백운역점 · 가장맛있는족발 만수점. 경쟁 벤치마킹부터 매출 2배 플레이북까지, 데이터로 이기는 족발 사업 전략.">
+<meta name="description" content="족발 비즈니스 솔루션 연구소 — 3D 온톨로지 지식그래프. 침샘족발 카운터 스터디를 케이스로 한 연구 과제 트리.">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="족발 비즈니스 솔루션 연구소">
-<meta property="og:title" content="족발 비즈니스 솔루션 연구소 — Bayaba Jokbal">
-<meta property="og:description" content="마왕족발 백운역점 · 가장맛있는족발 만수점. 경쟁 벤치마킹부터 매출 2배 플레이북까지.">
-<meta property="og:type" content="website">
-<title>족발 비즈니스 솔루션 연구소 — Bayaba Jokbal</title>
+<meta property="og:title" content="족발 비즈니스 솔루션 연구소">
+<meta property="og:description" content="3D 온톨로지 기반 연구 과제 트리. 침샘족발 카운터 스터디 케이스.">
+<title>족발 비즈니스 솔루션 연구소</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="manifest" href="manifest.json">
@@ -19,461 +18,396 @@
 <meta name="apple-mobile-web-app-title" content="족발 연구소">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 <style>
 :root{
-  --bg:#0a0908; --s1:#110f0d; --s2:#16130f; --s3:#1f1a14; --bdr:#2a241b;
-  --g1:#c9a96e; --g2:#d4af37; --g3:#e0c88a; --g4:#b8934a;
-  --t1:#ede6d8; --t2:#9c907c; --t3:#5e5445; --gr:#4a9c6c; --rd:#c44a4a; --bl:#5b8fd6;
-  --serif:'Noto Serif KR',serif; --sans:'Inter','Pretendard',sans-serif; --mono:'JetBrains Mono',monospace;
+  --bg:#080706; --panel:#12100d; --panel2:#1a1712; --bdr:#2a241b;
+  --gold:#d4af37; --gold2:#e0c88a; --bronze:#c9a96e; --crimson:#e85d4c; --teal:#3db8a8; --blue:#5b8fd6;
+  --ink:#ede6d8; --ink2:#a99c88; --ink3:#6b5f4e;
+  --serif:'Noto Serif KR',serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--t1);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-#gpu,#dust{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-#dust{z-index:0}
-#gpu{z-index:1}
-.gpu-off{display:none!important}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+#scene{position:fixed;inset:0;z-index:0}
+#scene canvas{display:block}
 
-.app{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 22px 80px}
+/* ── 상단 바 ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:14px;
+  padding:14px 22px;background:linear-gradient(rgba(8,7,6,.92),rgba(8,7,6,.5) 70%,transparent);pointer-events:none}
+.topbar .brand{display:flex;align-items:center;gap:11px;pointer-events:auto}
+.topbar .logo{width:40px;height:40px;background:linear-gradient(135deg,#1d1912,#2a2318);border:1.5px solid var(--gold);border-radius:11px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;color:var(--gold2);font-size:1.05rem}
+.topbar .brand h1{font-family:var(--serif);font-size:1.02rem;font-weight:900;color:var(--gold2);letter-spacing:.02em;line-height:1.15}
+.topbar .brand span{display:block;font-size:.56rem;font-weight:400;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
+.topbar .hint{margin-left:auto;font-size:.62rem;color:var(--ink3);letter-spacing:.06em;pointer-events:auto;text-align:right}
+.topbar .hint b{color:var(--bronze)}
 
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes glow{0%,100%{box-shadow:0 0 24px rgba(212,175,55,.08)}50%{box-shadow:0 0 44px rgba(212,175,55,.2)}}
+/* ── 범례 ── */
+.legend{position:fixed;left:22px;bottom:22px;z-index:20;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.legend .li{display:flex;align-items:center;gap:8px;font-size:.62rem;color:var(--ink2);letter-spacing:.04em}
+.legend .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 10px currentColor}
 
-/* ── 내비 ── */
-.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:4px;padding:12px 0;margin-bottom:8px;
-  background:linear-gradient(var(--bg) 80%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--bdr)}
-.nav::-webkit-scrollbar{display:none}
-.nav .brand{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-right:12px}
-.nav .logo{width:34px;height:34px;background:linear-gradient(135deg,#1d1912,#2a2318);border:1.5px solid var(--g1);border-radius:9px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;color:var(--g2);font-size:.92rem;animation:glow 3s infinite}
-.nav .brand b{font-size:.78rem;color:var(--g1);letter-spacing:.03em;white-space:nowrap}
-.nav .brand span{font-size:.6rem;color:var(--t3);display:block;letter-spacing:.08em;text-transform:uppercase}
-.nav a{font-size:.7rem;color:var(--t2);text-decoration:none;padding:7px 12px;border-radius:8px;white-space:nowrap;transition:.22s;border:1px solid transparent}
-.nav a:hover{color:var(--g1);border-color:var(--bdr)}
-.nav a.on{color:var(--g2);border-color:var(--g1);background:rgba(212,175,55,.07)}
+/* ── 노드 라벨 (CSS2D) ── */
+.node-label{pointer-events:auto;cursor:pointer;white-space:nowrap;transform:translate(-50%,-50%);
+  font-size:.68rem;font-weight:600;letter-spacing:.02em;color:var(--ink);padding:6px 11px;border-radius:20px;
+  background:rgba(18,16,13,.72);border:1px solid var(--bdr);backdrop-filter:blur(6px);transition:.2s}
+.node-label:hover{color:#0a0908;background:var(--gold);border-color:var(--gold)}
+.node-label.case{color:#ffb3a6;border-color:rgba(232,93,76,.5)}
+.node-label.case:hover{color:#fff;background:var(--crimson);border-color:var(--crimson)}
+.node-label.root{font-family:var(--serif);font-weight:900;font-size:.8rem;color:var(--gold2);border-color:rgba(212,175,55,.5)}
+.node-label.root:hover{color:#0a0908;background:var(--gold2);border-color:var(--gold2)}
 
-/* ── 히어로 ── */
-.hero{min-height:92vh;display:flex;align-items:center;padding:50px 0 70px;position:relative}
-.hero-inner{max-width:680px}
-.hero-badge{display:inline-flex;align-items:center;gap:7px;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--g1);font-weight:700;border:1px solid rgba(212,175,55,.25);padding:6px 14px;border-radius:30px;background:rgba(212,175,55,.05);margin-bottom:24px}
-.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--g2);box-shadow:0 0 12px var(--g2);animation:pulse 2s infinite}
-.hero h1{font-family:var(--serif);font-size:clamp(2.1rem,5.4vw,3.4rem);font-weight:900;color:var(--g2);letter-spacing:.01em;line-height:1.16;text-shadow:0 0 70px rgba(212,175,55,.22)}
-.hero h1 em{font-style:normal;color:var(--g3)}
-.hero .sub{margin-top:20px;color:var(--t2);font-size:.94rem;line-height:1.85;max-width:560px}
-.hero .lead{margin-top:20px;padding:16px 18px;background:rgba(20,17,12,.7);border:1px solid rgba(212,175,55,.2);border-radius:12px;color:var(--g3);font-size:.84rem;line-height:1.8;backdrop-filter:blur(6px)}
-.hero .lead b{color:var(--g2)}
-.hero .cta{margin-top:28px;display:flex;gap:11px;flex-wrap:wrap}
-.hero .cta a{font-size:.76rem;font-weight:700;text-decoration:none;padding:13px 22px;border-radius:10px;transition:.3s;letter-spacing:.02em}
-.cta .primary{background:linear-gradient(135deg,var(--g1),var(--g4));color:#0a0908}
-.cta .primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,175,55,.35)}
-.cta .ghost{border:1px solid var(--g1);color:var(--g2)}
-.cta .ghost:hover{background:rgba(212,175,55,.1)}
-.hero-stats{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;max-width:640px}
-.hero-stats .s{background:var(--s2);padding:16px 12px;text-align:center}
-.hero-stats .v{font-family:var(--mono);font-size:1.5rem;font-weight:800;color:var(--g2)}
-.hero-stats .l{font-size:.56rem;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
-.hero .gpu-tag{position:absolute;right:0;bottom:8px;font-size:.55rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;text-align:right;line-height:1.7}
-@media(max-width:640px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+/* ── 상세 패널 ── */
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(460px,92vw);z-index:30;
+  background:var(--panel);border-left:1px solid var(--bdr);transform:translateX(105%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;
+  box-shadow:-30px 0 60px rgba(0,0,0,.5)}
+.panel.open{transform:translateX(0)}
+.panel-head{padding:22px 24px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:flex-start;gap:12px}
+.panel-head .ico{font-size:1.4rem;line-height:1}
+.panel-head .t{flex:1}
+.panel-head .crumb{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.panel-head h2{font-family:var(--serif);font-size:1.25rem;font-weight:900;color:var(--gold2);line-height:1.3}
+.panel-close{flex-shrink:0;width:34px;height:34px;border:1px solid var(--bdr);border-radius:9px;background:none;color:var(--ink2);font-size:1rem;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.panel-close:hover{color:#0a0908;background:var(--crimson);border-color:var(--crimson)}
+.panel-body{flex:1;overflow-y:auto;padding:22px 24px 40px;font-size:.84rem;line-height:1.75;color:var(--ink2)}
+.panel-body h3{font-family:var(--serif);color:var(--gold2);font-size:1rem;margin:18px 0 8px}
+.panel-body h3:first-child{margin-top:0}
+.panel-body p{margin-bottom:10px}
+.panel-body b{color:var(--ink)}
+.panel-body ul{list-style:none;margin:8px 0}
+.panel-body li{position:relative;padding-left:16px;margin-bottom:7px}
+.panel-body li::before{content:'▸';position:absolute;left:0;color:var(--bronze)}
+.panel-body .tbl{width:100%;border-collapse:collapse;font-size:.74rem;margin:8px 0}
+.panel-body .tbl th,.panel-body .tbl td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--bdr);vertical-align:top}
+.panel-body .tbl th{color:var(--bronze);font-size:.68rem;letter-spacing:.04em}
+.panel-body .hl{color:var(--gold2)}
+.panel-body .warn{color:var(--crimson)}
+.panel-body .ok{color:var(--teal)}
 
-/* ── 섹션 ── */
-section{padding:40px 0 12px}
-.sec-head{margin:24px 0 18px;scroll-margin-top:70px}
-.sec-kicker{display:flex;align-items:center;gap:12px;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g1);font-weight:700;margin-bottom:8px}
-.sec-kicker .line{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent)}
-.sec-head h2{font-family:var(--serif);font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:900;color:var(--g3);line-height:1.3}
-.sec-head h2 em{font-style:normal;color:var(--g2)}
-.sec-deck{color:var(--t2);font-size:.82rem;margin-top:10px;max-width:720px;line-height:1.8}
+/* 원가 계산기 */
+.calc{background:var(--panel2);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin:10px 0}
+.c-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.c-row label{font-size:.72rem;color:var(--ink2);min-width:86px}
+.c-row input{flex:1;min-width:80px;background:#0d0b09;border:1px solid var(--bdr);color:var(--ink);padding:9px 12px;border-radius:8px;font-size:.9rem;font-family:var(--mono);outline:none}
+.c-row input:focus{border-color:var(--gold)}
+.c-row .unit{font-size:.7rem;color:var(--ink3)}
+.c-row .c-arrow{font-size:.7rem;color:var(--ink3)}
+.c-row b{color:var(--gold2);font-family:var(--mono);font-size:.95rem}
+.c-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.c-box{background:#0d0b09;border:1px solid var(--bdr);border-radius:9px;padding:12px 8px;text-align:center}
+.c-val{font-family:var(--mono);font-size:1.15rem;font-weight:700;color:var(--gold2)}
+.c-lbl{font-size:.56rem;color:var(--ink3);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.note2{margin-top:10px;padding:10px 12px;border:1px dashed var(--bdr);border-radius:8px;font-size:.7rem;color:var(--ink3);line-height:1.6}
 
-.card{background:rgba(22,18,14,.84);border:1px solid var(--bdr);border-radius:14px;padding:22px;margin-bottom:13px;backdrop-filter:blur(8px);transition:.3s}
-.card:hover{border-color:rgba(212,175,55,.3)}
-
-/* ── 매장 카드 ── */
-.store-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.store-grid{grid-template-columns:1fr}}
-.store{background:linear-gradient(135deg,var(--s2),#141009);border:1px solid var(--bdr);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:.35s}
-.store:hover{border-color:var(--g1);transform:translateY(-3px);box-shadow:0 20px 44px rgba(0,0,0,.4)}
-.store::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--g2),var(--g4));opacity:.9}
-.store .code{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--g1);margin-bottom:10px}
-.store h3{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--g2);margin-bottom:12px}
-.store .row{font-size:.76rem;color:var(--t2);line-height:1.7;margin-bottom:5px}
-.store .row b{color:var(--g3);font-weight:700}
-.store .menu-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.store .menu-tags span{font-size:.66rem;padding:4px 10px;border:1px solid rgba(212,175,55,.25);border-radius:20px;color:var(--g1);background:rgba(212,175,55,.05)}
-
-/* ── 비교 / 테이블 ── */
-table.cmp{width:100%;border-collapse:collapse;font-size:.74rem;background:rgba(22,18,14,.84);border-radius:14px;overflow:hidden}
-.cmp th,.cmp td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--bdr);vertical-align:top;line-height:1.6}
-.cmp th{color:var(--g1);font-family:var(--serif);font-size:.72rem;background:rgba(212,175,55,.04);letter-spacing:.03em}
-.cmp td{color:var(--t2)}
-.cmp td b{color:var(--g3)}
-.cmp td:first-child{color:var(--t1);font-weight:700;white-space:nowrap}
-.cmp .win{color:var(--g2);font-weight:700}
-@media(max-width:600px){.cmp{font-size:.64rem}.cmp th,.cmp td{padding:9px 7px}}
-
-/* ── vs ── */
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.vs{grid-template-columns:1fr}}
-.vs-card{background:rgba(22,18,14,.84);border:1px solid var(--bdr);border-radius:14px;padding:20px}
-.vs-card .cap{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.vs-card.good .cap{color:var(--gr)}
-.vs-card.bad .cap{color:var(--rd)}
-.vs-card li{display:flex;gap:9px;font-size:.78rem;line-height:1.65;list-style:none;margin-bottom:10px}
-.vs-card li .dot{flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:8px}
-.vs-card.good li .dot{background:var(--gr)}
-.vs-card.bad li .dot{background:var(--rd)}
-.vs-card li b{color:var(--g3)}
-.vs-card li span{color:var(--t2)}
-
-/* ── 전략 카드 ── */
-.strat{background:rgba(22,18,14,.84);border:1px solid var(--bdr);border-radius:14px;padding:20px;margin-bottom:13px}
-.strat .s-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.strat .s-no{font-family:var(--mono);font-size:1.1rem;font-weight:800;color:var(--g2)}
-.strat .s-head h3{font-family:var(--serif);font-size:.98rem;font-weight:900;color:var(--g1);flex:1;line-height:1.4}
-.strat .ref{font-size:.54rem;font-weight:700;padding:3px 9px;border-radius:20px;border:1px solid rgba(91,143,214,.3);background:rgba(91,143,214,.08);color:var(--bl);white-space:nowrap;letter-spacing:.03em}
-.strat .global{background:var(--s3);border-radius:9px;padding:11px 15px;margin-bottom:9px;border-left:3px solid var(--bl)}
-.strat .global p{font-size:.73rem;color:var(--t2);line-height:1.65}
-.strat .global b{color:var(--g3)}
-.strat .apply{background:var(--s3);border-radius:9px;padding:12px 15px;border-left:3px solid var(--g2)}
-.strat .apply p{font-size:.76rem;color:var(--t1);line-height:1.65}
-.strat .apply b{color:var(--g2)}
-
-/* ── 체크리스트 ── */
-.ck{display:flex;align-items:flex-start;gap:11px;padding:12px 15px;background:rgba(31,26,20,.85);border-radius:10px;font-size:.78rem;margin-bottom:8px;border:1px solid transparent;cursor:pointer;transition:.2s}
-.ck:hover{border-color:#2e2618}
-.ck .box{width:19px;height:19px;border:2px solid #3a3222;border-radius:5px;flex-shrink:0;margin-top:1px;transition:.22s;display:grid;place-items:center}
-.ck.done .box{background:var(--gr);border-color:var(--gr)}
-.ck.done .box::after{content:'✓';color:#0a0908;font-weight:800;font-size:.62rem}
-.ck.done .txt{text-decoration:line-through;color:var(--t3)}
-.ck .txt{flex:1;line-height:1.55}
-.ck .txt b{color:var(--g3)}
-
-.quote{background:linear-gradient(135deg,#1d1912,#18140e);border-left:3px solid var(--g1);padding:18px 22px;border-radius:0 12px 12px 0;margin-top:16px}
-.quote .qt{font-family:var(--serif);color:var(--g3);font-size:.9rem;font-weight:500;line-height:1.75}
-.quote .qs{color:var(--t3);font-size:.64rem;margin-top:6px;letter-spacing:.05em}
-
-footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--bdr);text-align:center;color:var(--t3);font-size:.66rem;letter-spacing:.05em;line-height:1.9}
-footer a{color:var(--g1);text-decoration:none}
+/* ── 로딩 ── */
+#boot{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--bg);color:var(--ink3);font-size:.8rem;letter-spacing:.1em;transition:opacity .5s}
+#boot.hide{opacity:0;pointer-events:none}
+@media(max-width:640px){.topbar .hint{display:none}.panel{width:100vw}}
 </style>
 </head>
 <body>
-<canvas id="dust"></canvas>
-<canvas id="gpu"></canvas>
+<div id="scene"></div>
 
-<div class="app">
-  <!-- 내비 -->
-  <nav class="nav" id="nav">
-    <div class="brand"><div class="logo">족</div><b>족발 솔루션 연구소<span>Jokbal Solution Lab</span></b></div>
-    <a href="#hero" class="on">홈</a>
-    <a href="#stores">매장</a>
-    <a href="#bench">벤치마킹</a>
-    <a href="#bridge">브릿지</a>
-    <a href="#playbook">매출 2배</a>
-    <a href="#pricing">가격</a>
-    <a href="#check">체크리스트</a>
-  </nav>
-
-  <!-- 히어로 -->
-  <div class="hero" id="hero">
-    <div class="hero-inner">
-      <div class="hero-badge"><span class="dot"></span> WebGPU 3D · 데이터 기반 족발 전략</div>
-      <h1>족발 사업,<br><em>데이터로 이긴다.</em></h1>
-      <div class="sub">옆 매장(침샘족발)이 1+1·8,000원 할인으로 손님을 갉아먹고 있습니다. 화만 내지 말고 — 전 세계가 검증한 리테일 전략과 경쟁 벤치마킹으로 우리 두 매장의 매출을 데이터로 끌어올리는 연구소입니다.</div>
-      <div class="lead"><b>연구 대상 매장:</b> 마왕족발 백운역점 · 가장맛있는족발 만수점. <b>목표:</b> 객단가·재방문·신규·채널 네 지렛대를 동시에 올려 <b>매출 100% 이상 성장</b>.</div>
-      <div class="cta">
-        <a class="primary" href="#stores">매장 현황 보기</a>
-        <a class="ghost" href="#playbook">매출 2배 플레이북</a>
-        <a class="ghost" href="#bridge">25,000원 브릿지</a>
-      </div>
-      <div class="hero-stats">
-        <div class="s"><div class="v">2</div><div class="l">운영 매장</div></div>
-        <div class="s"><div class="v">6</div><div class="l">글로벌 전략</div></div>
-        <div class="s"><div class="v">100%+</div><div class="l">매출 목표</div></div>
-        <div class="s"><div class="v">20%</div><div class="l">원가율(족발)</div></div>
-      </div>
-    </div>
-    <div class="gpu-tag">Powered by WebGPU<br>실시간 3D 골드 렌더</div>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">족</div>
+    <h1>족발 비즈니스 솔루션 연구소<span>Jokbal Solution Lab · Ontology</span></h1>
   </div>
+  <div class="hint">🖱️ 드래그 회전 · 휠 줌 · <b>노드 클릭</b>해 진입</div>
+</header>
 
-  <!-- 매장 -->
-  <section id="stores">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>01</span> 실제 매장 <span class="line"></span></div>
-      <h2>운영 중인 <em>매장 2곳</em></h2>
-      <p class="sec-deck">연구소가 분석·운영하는 실제 족발 매장입니다. 매장·배달·포장 전 채널의 현재 프라이싱과 메뉴를 마스터 데이터로 관리합니다.</p>
-    </div>
-    <div class="store-grid">
-      <div class="store">
-        <div class="code">BAEGUN · 마왕족발</div>
-        <h3>마왕족발 백운역점</h3>
-        <div class="row"><b>주소</b> 인천광역시 부평구 마장로36번길 26 1층</div>
-        <div class="row"><b>영업</b> 월~금 12:00~03:00 · 토 11:00~03:00 · 일 11:00~23:00</div>
-        <div class="row"><b>대표메뉴</b> 마왕통구이(소) 30,000원 · 쟁반국수 7,000원</div>
-        <div class="menu-tags"><span>홀</span><span>포장</span><span>배달</span><span>심야 영업</span></div>
-      </div>
-      <div class="store">
-        <div class="code">MANSU · 가장맛있는족발</div>
-        <h3>가장맛있는족발 인천만수점</h3>
-        <div class="row"><b>주소</b> 인천광역시 남동구 하촌로71번길 9 1층</div>
-        <div class="row"><b>영업</b> 저녁 영업 · 배달 가능</div>
-        <div class="row"><b>대표메뉴</b> 실속족발 25,000원 · 족발 · 쟁반국수 · 굴보쌈(계절)</div>
-        <div class="menu-tags"><span>홀</span><span>포장</span><span>배달</span><span>25,000원 무기</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 벤치마킹 -->
-  <section id="bench">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>02</span> 경쟁 벤치마킹 <span class="line"></span></div>
-      <h2>침샘족발, <em>뭘 잘했는가</em></h2>
-      <p class="sec-deck">저놈들이 손님 뺏은 방법은 어렵지 않습니다. '싸 보이는 미끼 + 밤샘 영업 + 포장 할인' 딱 세 가지. 우리가 놓친 것과 정면 비교합니다.</p>
-    </div>
-    <div class="vs">
-      <div class="vs-card good">
-        <div class="cap"><span style="font-size:1.1rem">😈</span> 침샘족발이 잘한 것</div>
-        <li><span class="dot"></span><span><b>'미끼'를 던짐.</b> 1+1·2~3만 원대 실속 메뉴로 부담 없이 장바구니에 담게 만듦.</span></li>
-        <li><span class="dot"></span><span><b>남들 잘 때 문 열었음.</b> 24시간 심야 영업으로 밤 수요를 혼자 독식.</span></li>
-        <li><span class="dot"></span><span><b>배달비 아끼는 법을 알았음.</b> 포장 8,000원 할인으로 동네 손님을 매장으로 쓸어 모음.</span></li>
-      </div>
-      <div class="vs-card bad">
-        <div class="cap"><span style="font-size:1.1rem">😅</span> 우리가 놓친 것</div>
-        <li><span class="dot"></span><span><b>점잔 뺐음.</b> 정가 고수로 가성비 찾는 젊은 층에 "비싸서 패스"로 찍힘.</span></li>
-        <li><span class="dot"></span><span><b>수수료에 돈 다 뜯김.</b> 배달앱 10~15% 수수료 + 대행비인데도 가격을 방치.</span></li>
-        <li><span class="dot"></span><span><b>손님 오면 끝.</b> "다음엔 우리 가게로 전화해" 단골 장치를 안 씀.</span></li>
-      </div>
-    </div>
-    <table class="cmp" style="margin-top:14px">
-      <tr><th>항목</th><th>침샘족발 (전투형)</th><th>우리 매장</th></tr>
-      <tr><td>포지션</td><td>가성비 · 할인 · 배달 중심</td><td class="win">브랜드 신뢰 · 홀 · 정가</td></tr>
-      <tr><td>프로모션</td><td>1+1, 포장 8,000원 할인, 미끼 메뉴</td><td class="win">25,000원 실속족발 + 홀 경험</td></tr>
-      <tr><td>약점</td><td class="win">홀 협소, 단골 결속 약함</td><td>배달 미끼·심야 틈새에서 밀림</td></tr>
-      <tr><td>결론</td><td colspan="2" class="win">침샘의 '미끼+심야'를 벤치마킹하되, 우리의 '홀+브랜드'로 역전</td></tr>
-    </table>
-  </section>
-
-  <!-- 브릿지 -->
-  <section id="bridge">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>03</span> 브릿지 전략 <span class="line"></span></div>
-      <h2>25,000원 실속족발로 <em>정면 격파</em></h2>
-      <p class="sec-deck">만수점은 이미 25,000원 실속족발이라는 무기를 쥐고 있습니다. 이걸 '구경만' 시키지 말고 손가락을 우리 쪽으로 꺾어야 합니다.</p>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">①</span><h3>'할인쇼' 대신 '브랜드 퀄리티'로 승부수</h3></div>
-      <div class="apply"><p>👉 <b>"싼 게 비지떡이 아닙니다. 대기업 가맛족의 특제 씨육수로 삶아낸 고품격 1인/실속 족발을 25,000원에 즐기세요."</b> 할인에 지친 똑똑한 소비자가 우리 쪽으로 넘어오게 하는 정공법.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">②</span><h3>25,000원 메뉴에 '포장 콤보' 붙여 배달앱 탈출</h3></div>
-      <div class="apply"><p><b>"25,000원 실속 족발, 매장 방문 포장 시 음료수 무료 UP / 주먹밥 서비스!"</b> 배달비 아끼려는 동네 손님이 배달앱을 끄게 만드세요.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">③</span><h3>배달 박스에 '단골 쿠폰' 심기</h3></div>
-      <div class="apply"><p>실속 족발 손님 배달 박스에 감사 메모·쿠폰. <b>"혼자서도, 야식으로도 부담 없는 만수점 실속 메뉴! 야식은 믿고 먹는 가맛족으로."</b></p></div>
-    </div>
-  </section>
-
-  <!-- 매출 2배 -->
-  <section id="playbook">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>04</span> 매출 2배 플레이북 <span class="line"></span></div>
-      <h2>전 세계가 검증한 <em>6가지 전략</em></h2>
-      <p class="sec-deck">매출 = 객단가 × 주문 건수. <b>객단가 +30% · 재방문 +30% · 신규 +30% · 채널 +20%</b> → 1.3×1.3×1.3×1.2 ≈ <b style="color:var(--g2)">2.6배</b>.</p>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">1</span><h3>로스리더 미끼 — 손님 들여보내기</h3><span class="ref">COSTCO</span></div>
-      <div class="global"><p>코스트코 <b>치킨 4.99달러(원가 이하)</b>·핫도그 1.5달러 → 장바구니 평균 <b>150~200달러</b>로 불어나는 '트래픽 엔진'.</p></div>
-      <div class="apply"><p><b>"미니족 9,900원"</b> 원가 수준 → 미끼 손님 10명 중 6명이 사이드 추가 구매가 목표.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">2</span><h3>번들·가격 사다리 — 객단가 올리기</h3><span class="ref">TACO BELL · CHILI'S</span></div>
-      <div class="global"><p>타코벨 <b>5/7/9달러 3단계</b>, 칠리스 번들로 <b>주가 40→180달러</b>, 스페인 '힙 피시' <b>객단가 36% 상승</b>.</p></div>
-      <div class="apply"><p><b>3단계 세트:</b> 실속 29,000 / 스탠다드 39,000 / 프리미엄 49,000원 — 손님이 '중간'을 고르게.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">3</span><h3>구독·멤버십 — 매주 오는 손님으로</h3><span class="ref">PANERA · STARBUCKS</span></div>
-      <div class="global"><p>파네라 <b>음료 무제한 구독</b>이 거래의 1/4, 공짜 손님 <b>70%가 음식 구매</b>. 스타벅스 매출 <b>57%가 멤버</b>.</p></div>
-      <div class="apply"><p><b>"막국수 무제한 패스 월 9,900원"</b> + 스탬프(족발 10팩→1팩 무료) — 공짜 사이드 받으러 왔다가 족발·주류 구매.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">4</span><h3>업셀·메뉴 정리 — 한 끼 더 팔기</h3><span class="ref">MCDONALD'S</span></div>
-      <div class="global"><p>맥도날드는 주문 시 추가·업그레이드 제안으로 <b>매출 +15~40%</b>. 안 팔리는 메뉴는 과감히 제거.</p></div>
-      <div class="apply"><p>계산 직전 <b>"막국수 2,000원 추가?"</b> + 족발·보쌈을 메뉴판 상단 스타로, 안 팔리는 것 제거.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">5</span><h3>심야 독점·시간대 세일</h3><span class="ref">HAPPY HOUR</span></div>
-      <div class="apply"><p>홀 마감 직전(밤 10~11시) 배달앱 안 닫고 <b>'마감 세일 5,000원 할인'</b>으로 재고 털기 + 심야 야식 세트.</p></div>
-    </div>
-    <div class="strat">
-      <div class="s-head"><span class="s-no">6</span><h3>자체 채널(D2C) — 수수료 탈피</h3><span class="ref">D2C</span></div>
-      <div class="apply"><p>배달 박스 <b>직주문 쿠폰</b>, 손님 번호 모아 <b>알림톡 리타게팅</b>, 만수동 1~2km <b>자체 배달</b>로 대행비 절감.</p></div>
-    </div>
-  </section>
-
-  <!-- 가격 -->
-  <section id="pricing">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>05</span> 가격 데이터 <span class="line"></span></div>
-      <h2>프랜차이즈 <em>가격·원가율</em></h2>
-      <p class="sec-deck">배민·쿠팡이츠·요기요 실시간 메뉴판은 사장님 계정 로그인이 필요합니다. 아래는 공개 데이터 기반 프랜차이즈 표준 가격(매장별 상이)입니다. <b>마스터 데이터: <span style="font-family:var(--mono)">data/stores.json</span></b></p>
-    </div>
-    <table class="cmp">
-      <tr><th>메뉴</th><th>가격</th><th>원가율/비고</th></tr>
-      <tr><td>족발 앞발(대)</td><td><b>41,000원</b></td><td>원가율 22.0% (재료비 9,025원)</td></tr>
-      <tr><td>족발 뒷발</td><td>36,000~37,000원</td><td>—</td></tr>
-      <tr><td>직화불족발</td><td>40,000~48,000원</td><td>원가율 19.9% (재료비 7,956원)</td></tr>
-      <tr><td>보쌈(중/대)</td><td>35,000~47,000원</td><td>원가율 20.0% (재료비 7,403원)</td></tr>
-      <tr><td><b>실속족발 (1~2인)</b></td><td><b>23,000~25,000원</b></td><td class="win">만수점 보유 무기</td></tr>
-      <tr><td>쟁반국수(소/중/대)</td><td>3,000~4,000 / 6,000~8,000 / 13,000~17,000원</td><td class="win">원가 낮음 → 서비스·미끼용 최적</td></tr>
-      <tr><td>날치알 주먹밥</td><td>4,000원</td><td>서비스/리뷰 이벤트용</td></tr>
-    </table>
-  </section>
-
-  <!-- 체크리스트 -->
-  <section id="check">
-    <div class="sec-head">
-      <div class="sec-kicker"><span>06</span> 실행 <span class="line"></span></div>
-      <h2>내일 아침 <em>체크리스트</em></h2>
-    </div>
-    <div id="checklist">
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt">배달앱에 <b>미끼 메뉴(2~3만 원대)</b> 1개 신설</div></div>
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt">25,000원 메뉴에 <b>'브랜드 퀄리티' 문구 + 포장 콤보</b> 붙이기</div></div>
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt">가게 앞 + 앱 배너에 <b>"포장 4,000원 할인 + 막국수"</b></div></div>
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt">배달 박스 <b>직주문 쿠폰·스티커</b> 제작</div></div>
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt">동네 1~2km <b>자체 배달</b> + 단골 <b>알림톡</b> 시작</div></div>
-      <div class="ck" onclick="this.classList.toggle('done')"><div class="box"></div><div class="txt"><b>3단계 세트(29/39/49천원)</b> + <b>막국수 무제한 패스</b> 구성</div></div>
-    </div>
-    <div class="quote">
-      <div class="qt">코스트코는 치킨에서 손해 봐도 장바구니로 이깁니다. 우리도 미끼 메뉴에서 조금 남기고, 세트·사이드·단골에서 확실하게 남기면 됩니다. 이 판은 손익을 먼저 움직이는 사람이 이깁니다.</div>
-      <div class="qs">— 족발 비즈니스 솔루션 연구소 —</div>
-    </div>
-  </section>
-
-  <footer>
-    족발 비즈니스 솔루션 연구소 · Bayaba Jokbal · 마왕족발 백운역점 + 가장맛있는족발 만수점<br>
-    마스터 데이터: <a href="data/stores.json">data/stores.json</a> · 원문: <a href="docs/">docs/</a> · 배달앱 파싱: <a href="scripts/scrape-delivery.mjs">scripts/</a>
-  </footer>
+<div class="legend">
+  <div class="li"><span class="dot" style="color:#d4af37;background:#d4af37"></span>연구소 / 루트</div>
+  <div class="li"><span class="dot" style="color:#3db8a8;background:#3db8a8"></span>연구 과제 트레일</div>
+  <div class="li"><span class="dot" style="color:#e85d4c;background:#e85d4c"></span>케이스 · 침샘족발</div>
+  <div class="li"><span class="dot" style="color:#c9a96e;background:#c9a96e"></span>세부 분석</div>
 </div>
 
-<script>
-// ============ 2D 골드 파티클 (배경) ============
-(function(){
-  const c=document.getElementById('dust'),x=c.getContext('2d');let ps=[];
-  function rs(){c.width=innerWidth;c.height=innerHeight}rs();addEventListener('resize',rs);
-  for(let i=0;i<70;i++)ps.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+.4,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,a:Math.random()*.4+.1});
-  (function ap(){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=`rgba(201,169,110,${p.a})`;x.fill()});requestAnimationFrame(ap)})();
-})();
+<aside class="panel" id="panel">
+  <div class="panel-head">
+    <div class="ico" id="pIco">📄</div>
+    <div class="t"><div class="crumb" id="pCrumb"></div><h2 id="pTitle"></h2></div>
+    <button class="panel-close" id="pClose" aria-label="닫기">✕</button>
+  </div>
+  <div class="panel-body" id="pBody"></div>
+</aside>
 
-// ============ WebGPU 3D 골드 토러스 ============
-(async function(){
-  const cv=document.getElementById('gpu');
-  if(!navigator.gpu){cv.classList.add('gpu-off');return;}
-  let adapter,device;
-  try{adapter=await navigator.gpu.requestAdapter();if(!adapter)throw 0;device=await adapter.requestDevice();}
-  catch(e){cv.classList.add('gpu-off');return;}
-  const ctx=cv.getContext('webgpu');
-  const format=navigator.gpu.getPreferredCanvasFormat();
-  ctx.configure({device,format,alphaMode:'premultiplied'});
-  function rs(){cv.width=Math.max(1,innerWidth*devicePixelRatio);cv.height=Math.max(1,innerHeight*devicePixelRatio);}
-  rs();addEventListener('resize',rs);
+<div id="boot">3D 온톨로지 로딩 중…</div>
 
-  // 토러스 지오메트리
-  function torus(R,r,uSeg,vSeg){
-    const pos=[],nrm=[],idx=[];
-    for(let i=0;i<=uSeg;i++){const u=i/uSeg*Math.PI*2;
-      for(let j=0;j<=vSeg;j++){const v=j/vSeg*Math.PI*2;
-        const x=(R+r*Math.cos(v))*Math.cos(u),y=(R+r*Math.cos(v))*Math.sin(u),z=r*Math.sin(v);
-        pos.push(x,y,z);nrm.push(Math.cos(v)*Math.cos(u),Math.cos(v)*Math.sin(u),Math.sin(v));}}
-    for(let i=0;i<uSeg;i++)for(let j=0;j<vSeg;j++){const a=i*(vSeg+1)+j,b=a+vSeg+1;idx.push(a,b,a+1,b,b+1,a+1);}
-    return {pos:new Float32Array(pos),nrm:new Float32Array(nrm),idx:new Uint32Array(idx)};
-  }
-  const geo=torus(1.0,0.38,96,36);
-  const vb=device.createBuffer({size:geo.pos.byteLength+geo.nrm.byteLength,usage:GPUBufferUsage.VERTEX});
-  device.queue.writeBuffer(vb,0,geo.pos);device.queue.writeBuffer(vb,geo.pos.byteLength,geo.nrm);
-  const ib=device.createBuffer({size:geo.idx.byteLength,usage:GPUBufferUsage.INDEX});device.queue.writeBuffer(ib,0,geo.idx);
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
-  const uData=new Float32Array(40);
-  const ub=device.createBuffer({size:160,usage:GPUBufferUsage.UNIFORM|GPUBufferUsage.COPY_DST});
+// ================= 연구 과제 온톨로지 (트리 데이터) =================
+const TREE = {
+  id:'lab', label:'족발 비즈니스\n솔루션 연구소', icon:'🏛️', type:'root',
+  body:`<p>마왕족발 백운역점 · 가장맛있는족발 만수점 — 두 매장의 <b>경쟁 벤치마킹·프라이싱·매출 성장</b>을 데이터로 연구하는 공간입니다.</p><p>아래 트리에서 <b>노드를 클릭</b>해 연구 과제 하나씩 들어가 보세요. <span class="hl">빨간 노드(침샘족발 카운터 스터디)</span>가 현재 진행 중인 대표 케이스입니다.</p>`,
+  children:[
+    { id:'case', label:'침샘족발 카운터 스터디', icon:'🥊', type:'case',
+      body:`<p>옆 매장(침샘족발)이 <b>1+1·8,000원 할인·24시간 심야</b>로 우리 손님과 배달 수요를 갉아먹고 있습니다. 이 케이스는 침샘족발의 실체를 뜯어보고, 우리 매장의 무기로 정면 반격하는 <b>완결형 연구 과제</b>입니다.</p><p><span class="hl">핵심 공식:</span> 매출 = 객단가 × 주문 건수 → <b>객단가 +30% · 재방문 +30% · 신규 +30% · 채널 +20%</b> = 1.3×1.3×1.3×1.2 ≈ <b>2.6배(160%)</b>.</p><p>하위 6개 노드를 클릭해 단계별로 확인하세요.</p>`,
+      children:[
+        { id:'bench', label:'경쟁 벤치마킹', icon:'🔍', type:'leaf',
+          body:`<h3>침샘족발이 잘한 것</h3><ul>
+          <li><b>'미끼'를 던짐</b> — 1+1·2~3만 원대 실속 메뉴로 부담 없이 장바구니에 담게 만듦.</li>
+          <li><b>남들 잘 때 문 열었음</b> — 24시간 심야 영업으로 밤 수요 독식.</li>
+          <li><b>배달비 아끼는 법을 알았음</b> — 포장 8,000원 할인으로 동네 손님을 매장으로.</li></ul>
+          <h3>우리가 놓친 것</h3><ul>
+          <li><b>점잔 뺐음</b> — 정가 고수로 가성비 찾는 젊은 층에 "비싸서 패스".</li>
+          <li><b>수수료에 돈 다 뜯김</b> — 배달앱 10~15% + 대행비인데도 가격 방치.</li>
+          <li><b>손님 오면 끝</b> — 단골(직주문) 장치를 안 씀.</li></ul>
+          <p class="hl">결론: 침샘의 '미끼+심야'를 벤치마킹하되, 우리의 '홀+브랜드'로 역전.</p>` },
+        { id:'swot', label:'SWOT 분석', icon:'📊', type:'leaf',
+          body:`<table class="tbl"><tr><th>S 강점</th><td>동네가 다 아는 브랜드·맛 / <b>넓고 깨끗한 홀</b></td></tr>
+          <tr><th>W 약점</th><td>정가만 팔아 1~2인·야식족 놓침 / 수수료로 <b>남는 돈 적음</b></td></tr>
+          <tr><th>O 기회</th><td>"배달비 아깝네" <b>방문 포장 수요</b> / 가족 외식·홀 회식 독점 가능</td></tr>
+          <tr><th>T 위협</th><td>1+1·할인·심야 무장 <b>전투형 브랜드 침투</b></td></tr></table>` },
+        { id:'bridge', label:'브릿지 전략 (25,000원)', icon:'🌉', type:'leaf',
+          body:`<p>만수점은 이미 <b>25,000원 실속족발</b>이라는 무기를 쥐고 있습니다. 이걸 '구경만' 시키지 말고 손가락을 우리 쪽으로 꺾습니다.</p><ul>
+          <li><b>① 브랜드 퀄리티 승부수</b> — "싼 게 비지떡이 아닙니다. 가맛족 특제 씨육수로 삶아낸 고품격 실속 족발 25,000원."</li>
+          <li><b>② 포장 콤보 탈출</b> — "매장 방문 포장 시 음료수 무료 UP / 주먹밥 서비스!"</li>
+          <li><b>③ 배달 박스 쿠폰</b> — "앱 말고 매장 전화 주문 시 5,000원 상당 사이드."</li></ul>` },
+        { id:'playbook', label:'매출 2배 플레이북', icon:'📈', type:'leaf',
+          body:`<h3>전 세계 검증 전략 6가지</h3><ul>
+          <li><b>1. 로스리더 미끼</b> <span class="hl">(COSTCO)</span> — 미니족 9,900원 → 사이드로 수익.</li>
+          <li><b>2. 번들·가격 사다리</b> <span class="hl">(TACO BELL·CHILI'S)</span> — 29/39/49천원 3단계.</li>
+          <li><b>3. 구독·멤버십</b> <span class="hl">(PANERA·STARBUCKS)</span> — 막국수 무제한 패스 월 9,900원.</li>
+          <li><b>4. 업셀·메뉴 정리</b> <span class="hl">(MCDONALD'S)</span> — "막국수 2,000원 추가?"</li>
+          <li><b>5. 심야·시간대 세일</b> — 마감 세일 5,000원 할인.</li>
+          <li><b>6. 자체 채널(D2C)</b> — 직주문 쿠폰 + 알림톡 + 자체 배달.</li></ul>` },
+        { id:'pricing', label:'가격 데이터', icon:'💰', type:'leaf',
+          body:`<table class="tbl"><tr><th>메뉴</th><th>가격</th><th>원가율</th></tr>
+          <tr><td>족발 앞발(대)</td><td><b>41,000원</b></td><td>22.0%</td></tr>
+          <tr><td>직화불족발</td><td>40,000~48,000원</td><td>19.9%</td></tr>
+          <tr><td>보쌈(중/대)</td><td>35,000~47,000원</td><td>20.0%</td></tr>
+          <tr><td><b>실속족발(1~2인)</b></td><td><b>23,000~25,000원</b></td><td class="hl">만수점 무기</td></tr>
+          <tr><td>쟁반국수</td><td>3,000~17,000원</td><td class="hl">원가 낮음→서비스용</td></tr></table>
+          <p class="warn">⚠️ 배민·쿠팡이츠·요기요 실시간 가격은 사장님 계정 로그인 후 파싱 예정.</p>` },
+        { id:'check', label:'실행 체크리스트', icon:'✅', type:'leaf',
+          body:`<ul><li>배달앱에 <b>미끼 메뉴(2~3만 원대)</b> 신설</li>
+          <li>25,000원 메뉴에 <b>브랜드 문구 + 포장 콤보</b></li>
+          <li>가게 앞 + 앱 배너 <b>"포장 4,000원 할인 + 막국수"</b></li>
+          <li>배달 박스 <b>직주문 쿠폰·스티커</b></li>
+          <li>동네 1~2km <b>자체 배달</b> + 단골 <b>알림톡</b></li>
+          <li><b>3단계 세트 + 막국수 무제한 패스</b> 구성</li></ul>` }
+      ]},
+    { id:'stores', label:'매장 분석', icon:'🏪', type:'trail',
+      body:`<p>연구소가 분석·운영하는 실제 족발 매장 2곳.</p>`,
+      children:[
+        { id:'mawang', label:'마왕족발 백운역점', icon:'👑', type:'leaf',
+          body:`<h3>마왕족발 백운역점</h3><ul>
+          <li><b>주소</b> 인천광역시 부평구 마장로36번길 26 1층</li>
+          <li><b>영업</b> 월~금 12:00~03:00 · 토 11:00~03:00 · 일 11:00~23:00</li>
+          <li><b>대표메뉴</b> 마왕통구이(소) 30,000원 · 쟁반국수 7,000원</li></ul>` },
+        { id:'mansu', label:'가장맛있는족발 만수점', icon:'🍖', type:'leaf',
+          body:`<h3>가장맛있는족발 인천만수점</h3><ul>
+          <li><b>주소</b> 인천광역시 남동구 하촌로71번길 9 1층 (1993년 개업)</li>
+          <li><b>영업</b> 저녁 영업 · 배달 가능</li>
+          <li><b>대표메뉴</b> 실속족발 25,000원 · 족발 · 쟁반국수 · 굴보쌈(계절)</li></ul>` }
+      ]},
+    { id:'pricing', label:'프라이싱', icon:'🧮', type:'trail',
+      body:`<p>메뉴 <b>가격 책정</b>과 <b>마진 관리</b>를 위한 독립 카테고리입니다. 원가 계산기로 가격을 책정하고, 회계 장부처럼 마진을 추적합니다.</p><p>하위 노드의 <b>원가 계산기</b>를 직접 사용해 보세요.</p>`,
+      children:[
+        { id:'calc', label:'원가 계산기', icon:'🧮', type:'leaf',
+          body:`<p>원가(재료비)와 판매가를 넣으면 <b>원가율·마진·마진율</b>을 즉시 계산합니다. 목표 마진율로 판매가를 역산할 수도 있습니다.</p>
+          <div class="calc">
+            <div class="c-row"><label>원가(재료비)</label><input type="number" id="c_cost" value="9025" oninput="window.cc()"><span class="unit">원</span></div>
+            <div class="c-row"><label>판매가</label><input type="number" id="c_price" value="41000" oninput="window.cc()"><span class="unit">원</span></div>
+            <div class="c-grid">
+              <div class="c-box"><div class="c-val" id="c_rate">—</div><div class="c-lbl">원가율</div></div>
+              <div class="c-box"><div class="c-val" id="c_margin">—</div><div class="c-lbl">마진(이익)</div></div>
+              <div class="c-box"><div class="c-val" id="c_mrate">—</div><div class="c-lbl">마진율</div></div>
+            </div>
+            <div class="c-row"><label>목표 마진율</label><input type="number" id="c_target" value="60" oninput="window.cc()"><span class="unit">%</span><span class="c-arrow">→ 판매가</span><b id="c_suggest">—</b></div>
+          </div>
+          <p class="note2">예) 족발 앞발: 원가 9,025원 / 판매가 41,000원 → 마진 약 31,975원 (마진율 약 78%).</p>` },
+        { id:'price-strategy', label:'프라이싱 전략', icon:'🎯', type:'leaf',
+          body:`<ul>
+          <li><b>3단계 가격 사다리</b> — 실속 29,000 / 스탠다드 39,000 / 프리미엄 49,000원 (중간값 유도).</li>
+          <li><b>미끼 메뉴</b> — 미니족 9,900원(원가 수준) → 사이드·주류로 수익.</li>
+          <li><b>포장 할인</b> — 수수료 절감분(10~15%)을 고객에게 환원 (4,000원 + 막국수).</li>
+          <li><b>서비스 품목</b> — 원가 낮은 쟁반국수(3~8천원)·주먹밥(4천원)을 할인/리뷰 이벤트에 활용.</li></ul>` },
+        { id:'price-data', label:'가격·원가 데이터', icon:'💰', type:'leaf',
+          body:`<table class="tbl"><tr><th>메뉴</th><th>판매가</th><th>원가</th><th>마진율</th></tr>
+          <tr><td>족발 앞발(대)</td><td>41,000원</td><td>9,025원</td><td class="ok">78%</td></tr>
+          <tr><td>직화불족발</td><td>40,000원</td><td>7,956원</td><td class="ok">80%</td></tr>
+          <tr><td>보쌈(중)</td><td>37,000원</td><td>7,403원</td><td class="ok">80%</td></tr>
+          <tr><td>실속족발</td><td>25,000원</td><td>—</td><td class="hl">만수점 무기</td></tr></table>
+          <p class="warn">⚠️ 배민·쿠팡이츠·요기요 실시간 가격은 사장님 계정 로그인 후 파싱 예정.</p>` }
+      ]},
+    { id:'channel', label:'배달 채널 파싱', icon:'🛵', type:'trail',
+      body:`<p>배민·요기요·쿠팡이츠 전산 등록 상태를 파싱해 마스터 데이터에 반영합니다.</p><p class="warn">⚠️ 사장님 계정 로그인(OTP) 필요 — Playwright 골격 완료.</p>`,
+      children:[
+        { id:'baemin', label:'배달의민족', icon:'🛵', type:'leaf', body:`<p><b>배달의민족</b> — 수수료 10~15%. 사장님 계정 로그인 후 메뉴·가격 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
+        { id:'yogiyo', label:'요기요', icon:'🥡', type:'leaf', body:`<p><b>요기요</b> — 수수료 ~12%. 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
+        { id:'coupang', label:'쿠팡이츠', icon:'📦', type:'leaf', body:`<p><b>쿠팡이츠</b> — 수수료 ~9.8%. 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
+        { id:'naver', label:'네이버 플레이스', icon:'📍', type:'leaf', body:`<p><b>네이버 플레이스</b> 자동화 + 콘텐츠 운영.</p><p class="ok">오픈 이슈 #1로 등록됨.</p>` }
+      ]},
+    { id:'global', label:'글로벌 리테일 벤치마킹', icon:'🌍', type:'trail',
+      body:`<p>전 세계 소매·외식에서 검증된 전략을 족발 사업에 적용합니다.</p>`,
+      children:[
+        { id:'costco', label:'로스리더 (Costco)', icon:'🐔', type:'leaf', body:`<p>코스트코 <b>치킨 4.99달러(원가 이하)</b>·핫도그 1.5달러 → 장바구니 평균 <b>150~200달러</b>.</p><p>→ 족발집 적용: <b>미니족 9,900원</b> 미끼.</p>` },
+        { id:'tacobell', label:'번들 (Taco Bell·Chili\'s)', icon:'🌮', type:'leaf', body:`<p>타코벨 <b>5/7/9달러 3단계</b>, 칠리스 번들로 <b>주가 40→180달러</b>, 힙피시 <b>객단가 36%↑</b>.</p><p>→ <b>3단계 세트</b> 29/39/49천원.</p>` },
+        { id:'panera', label:'구독 (Panera·Starbucks)', icon:'☕', type:'leaf', body:`<p>파네라 <b>음료 무제한 구독</b>이 거래 1/4, 공짜 손님 <b>70% 음식 구매</b>. 스타벅스 매출 <b>57% 멤버</b>.</p><p>→ <b>막국수 무제한 패스</b> 월 9,900원.</p>` },
+        { id:'mcd', label:'업셀 (McDonald\'s)', icon:'🍟', type:'leaf', body:`<p>맥도날드 업셀 제안으로 <b>매출 +15~40%</b>. 안 팔리는 메뉴 제거.</p><p>→ 체크아웃 <b>"막국수 2,000원 추가?"</b></p>` }
+      ]}
+  ]
+};
 
-  function mul(a,b){const o=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+r]*b[c*4+k];o[c*4+r]=s;}return o;}
-  function persp(fov,asp,n,f){const t=1/Math.tan(fov/2),nf=1/(n-f);const o=new Float32Array(16);o[0]=t/asp;o[5]=t;o[10]=(f+n)*nf;o[11]=-1;o[14]=2*f*n*nf;return o;}
-  function rotX(a){const c=Math.cos(a),s=Math.sin(a);return new Float32Array([1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1]);}
-  function rotY(a){const c=Math.cos(a),s=Math.sin(a);return new Float32Array([c,0,-s,0,0,1,0,0,s,0,c,0,0,0,0,1]);}
-  function trans(x,y,z){const o=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1]);return o;}
-  function scale(s){const o=new Float32Array([s,0,0,0,0,s,0,0,0,0,s,0,0,0,0,1]);return o;}
+// ================= 3D 씬 =================
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x080706);
+scene.fog = new THREE.FogExp2(0x080706, 0.016);
 
-  const shader=device.createShaderModule({code:`
-    struct U { mvp : mat4x4<f32>, model : mat4x4<f32>, viewPos : vec4<f32>, lightDir : vec4<f32> };
-    @group(0) @binding(0) var<uniform> u : U;
-    struct VSOut { @builtin(position) pos : vec4<f32>, @location(0) wp : vec3<f32>, @location(1) n : vec3<f32> };
-    @vertex fn vs(@location(0) p : vec3<f32>, @location(1) n : vec3<f32>) -> VSOut {
-      var o : VSOut;
-      let w = u.model * vec4<f32>(p, 1.0);
-      o.wp = w.xyz;
-      o.n = (u.model * vec4<f32>(n, 0.0)).xyz;
-      o.pos = u.mvp * vec4<f32>(p, 1.0);
-      return o;
-    }
-    @fragment fn fs(in : VSOut) -> @location(0) vec4<f32> {
-      let N = normalize(in.n);
-      let L = normalize(u.lightDir.xyz);
-      let V = normalize(u.viewPos.xyz - in.wp);
-      let H = normalize(L + V);
-      let diff = max(dot(N, L), 0.0);
-      let spec = pow(max(dot(N, H), 0.0), 40.0);
-      let rim = pow(1.0 - max(dot(N, V), 0.0), 2.5);
-      let base = vec3<f32>(0.83, 0.68, 0.35);
-      var col = base * (0.22 + 0.78 * diff) + vec3<f32>(1.0, 0.95, 0.72) * spec * 0.7;
-      col = col + base * rim * 0.45;
-      return vec4<f32>(col, 1.0);
-    }
-  `});
-  const bgl=device.createBindGroupLayout({entries:[{binding:0,visibility:GPUShaderStage.VERTEX|GPUShaderStage.FRAGMENT,buffer:{type:'uniform'}}]});
-  const bg=device.createBindGroup({layout:bgl,entries:[{binding:0,resource:{buffer:ub}}]});
-  const pipeline=device.createRenderPipeline({
-    layout:device.createPipelineLayout({bindGroupLayouts:[bgl]}),
-    vertex:{module:shader,entryPoint:'vs',buffers:[{arrayStride:24,attributes:[
-      {shaderLocation:0,offset:0,format:'float32x3'},{shaderLocation:1,offset:12,format:'float32x3'}]}]},
-    fragment:{module:shader,entryPoint:'fs',targets:[{format}]},
-    primitive:{topology:'triangle-list',cullMode:'none'},
-    depthStencil:{format:'depth24plus',depthWriteEnabled:true,depthCompare:'less'}
-  });
-  let dt=device.createTexture({size:[cv.width,cv.height],format:'depth24plus',usage:GPUTextureUsage.RENDER_ATTACHMENT});
-  addEventListener('resize',()=>{dt.destroy();dt=device.createTexture({size:[cv.width,cv.height],format:'depth24plus',usage:GPUTextureUsage.RENDER_ATTACHMENT});});
-  const aspect=()=>cv.width/Math.max(1,cv.height);
-  let t=0;
-  function frame(){
-    t+=0.008;
-    const m=innerWidth<640?0.62:0.9;
-    let model=mul(rotY(t*0.7),rotX(0.5+Math.sin(t*0.4)*0.2));model=mul(model,scale(m));
-    const view=trans(0,0,-5.2),proj=persp(50*Math.PI/180,aspect(),0.1,50);
-    const mvp=mul(proj,mul(view,model));
-    uData.set(mvp,0);uData.set(model,16);uData.set([0,0,5.2,1],32);uData.set([0.5,0.8,0.6,0],36);
-    device.queue.writeBuffer(ub,0,uData);
-    const tex=ctx.getCurrentTexture();
-    const enc=device.createCommandEncoder();
-    const pass=enc.beginRenderPass({colorAttachments:[{view:tex.createView(),clearValue:{r:0,g:0,b:0,a:0},loadOp:'clear',storeOp:'store'}],
-      depthStencilAttachment:{view:dt.createView(),depthClearValue:1.0,depthLoadOp:'clear',depthStoreOp:'store'}});
-    pass.setPipeline(pipeline);pass.setBindGroup(0,bg);pass.setVertexBuffer(0,vb);pass.setIndexBuffer(ib,'uint32');
-    pass.drawIndexed(geo.idx.length);pass.end();
-    device.queue.submit([enc.finish()]);
-    requestAnimationFrame(frame);
-  }
-  frame();
-})();
+const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 200);
+camera.position.set(0, 6, 24);
 
-// ============ 내비 하이라이트 ============
-(function(){
-  const links=[...document.querySelectorAll('.nav a')];
-  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  addEventListener('scroll',()=>{let cur='#hero';const y=scrollY+90;secs.forEach(s=>{if(s.offsetTop<=y)cur='#'+s.id;});links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')===cur));},{passive:true});
-})();
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.getElementById('scene').appendChild(renderer.domElement);
 
-// ============ PWA 서비스워커 등록 ============
-if ('serviceWorker' in navigator) {
-  addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(innerWidth, innerHeight);
+labelRenderer.domElement.style.position = 'fixed';
+labelRenderer.domElement.style.top = '0';
+labelRenderer.domElement.style.pointerEvents = 'none';
+document.getElementById('scene').appendChild(labelRenderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.minDistance = 8;
+controls.maxDistance = 60;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.5;
+controls.target.set(0, 0.5, 0);
+
+// 조명
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+const p1 = new THREE.PointLight(0xd4af37, 90, 60); p1.position.set(10, 12, 10); scene.add(p1);
+const p2 = new THREE.PointLight(0x5b8fd6, 40, 60); p2.position.set(-12, -4, -8); scene.add(p2);
+
+// 골드 파티클 배경 (3D)
+const pc = 600, ppos = new Float32Array(pc*3);
+for(let i=0;i<pc;i++){ ppos[i*3]=(Math.random()-0.5)*50; ppos[i*3+1]=(Math.random()-0.5)*40; ppos[i*3+2]=(Math.random()-0.5)*30; }
+const pgeo = new THREE.BufferGeometry(); pgeo.setAttribute('position', new THREE.BufferAttribute(ppos,3));
+const pmat = new THREE.PointsMaterial({ color:0xd4af37, size:0.05, transparent:true, opacity:0.5, depthWrite:false, blending:THREE.AdditiveBlending });
+scene.add(new THREE.Points(pgeo, pmat));
+
+// ================= 트리 레이아웃 + 노드/엣지 =================
+const RADIUS = 5.6;
+function layout(node, depth, angle, spread){
+  const r = depth===0 ? 0 : RADIUS * depth;
+  node._pos = new THREE.Vector3(r*Math.cos(angle), depth===0 ? 1.6 : (depth===1?0.6:0)*1.0 + (depth===2? (angle*0.3):0), r*Math.sin(angle));
+  const kids = node.children||[];
+  if(!kids.length) return;
+  if(kids.length===1){ layout(kids[0], depth+1, angle, spread); return; }
+  kids.forEach((k,i)=>{ const a = angle + spread*(i/(kids.length-1)-0.5); layout(k, depth+1, a, spread*0.7); });
 }
+layout(TREE, 0, -Math.PI/2, Math.PI*1.7);
+
+const COLORS = { root:0xd4af37, trail:0x3db8a8, case:0xe85d4c, leaf:0xc9a96e };
+const nodeMeshes = [];
+const allNodes = [];
+const edges = [];
+
+function collect(node, parent){
+  allNodes.push(node);
+  const c = COLORS[node.type];
+  // 구체
+  const size = node.type==='root'?1.1 : node.type==='case'?0.85 : node.type==='trail'?0.7 : 0.5;
+  const geo = new THREE.SphereGeometry(size, 32, 32);
+  const mat = new THREE.MeshStandardMaterial({ color:c, roughness:0.35, metalness:0.55, emissive:c, emissiveIntensity: node.type==='case'?0.45:0.25 });
+  const m = new THREE.Mesh(geo, mat);
+  m.position.copy(node._pos);
+  m.userData = node;
+  scene.add(m); nodeMeshes.push(m);
+  // 후광 스프라이트
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ color:c, transparent:true, opacity:0.16, depthWrite:false, blending:THREE.AdditiveBlending }));
+  halo.scale.set(size*4.5, size*4.5, 1); halo.position.copy(node._pos); scene.add(halo);
+  // 라벨
+  const lbl = document.createElement('div');
+  lbl.className = 'node-label' + (node.type==='root'?' root':'') + (node.type==='case'?' case':'');
+  lbl.textContent = (node.icon?node.icon+' ':'') + node.label.replace(/\n/g,' ');
+  const lab = new CSS2DObject(lbl); lab.position.copy(node._pos); lab.position.y += (node.type==='root'?2.2:1.1); scene.add(lab);
+  lbl.addEventListener('click', ()=>openPanel(node));
+  // 엣지
+  if(parent){ const a = parent._pos, b = node._pos; const gp = new THREE.BufferGeometry().setFromPoints([a,b]);
+    const ln = new THREE.Line(gp, new THREE.LineBasicMaterial({ color:c, transparent:true, opacity:0.35 })); scene.add(ln); edges.push(ln); }
+  (node.children||[]).forEach(k=>collect(k, node));
+}
+collect(TREE, null);
+
+// ================= 패널 =================
+const panel = document.getElementById('panel');
+const pIco = document.getElementById('pIco'), pCrumb = document.getElementById('pCrumb'), pTitle = document.getElementById('pTitle'), pBody = document.getElementById('pBody');
+const pClose = document.getElementById('pClose');
+
+function openPanel(node){
+  pIco.textContent = node.icon||'📄';
+  pCrumb.textContent = (node.type==='root'?'연구소': node.type==='case'?'케이스 · 연구': node.type==='trail'?'연구 과제 트레일':'세부 분석');
+  pTitle.textContent = node.label.replace(/\n/g,' ');
+  pBody.innerHTML = node.body||'';
+  panel.classList.add('open');
+  if(document.getElementById('c_cost')) window.cc();
+  controls.autoRotate = false;
+}
+pClose.addEventListener('click', ()=>{ panel.classList.remove('open'); controls.autoRotate = true; });
+
+// 원가 계산기 (회계 장부식)
+window.cc = function(){
+  const g = id => document.getElementById(id);
+  const cost = parseFloat(g('c_cost').value)||0;
+  const price = parseFloat(g('c_price').value)||0;
+  const target = parseFloat(g('c_target').value)||0;
+  const rate = price>0 ? cost/price*100 : 0;
+  const margin = price-cost;
+  const mrate = price>0 ? margin/price*100 : 0;
+  const suggest = (target>0 && target<100) ? Math.round(cost/(1-target/100)) : 0;
+  g('c_rate').textContent = rate.toFixed(1)+'%';
+  g('c_margin').textContent = margin.toLocaleString('ko-KR')+'원';
+  g('c_mrate').textContent = mrate.toFixed(1)+'%';
+  g('c_suggest').textContent = suggest.toLocaleString('ko-KR')+'원';
+};
+
+// ================= 애니메이션 루프 =================
+const clock = new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  nodeMeshes.forEach(m=>{
+    if(m.userData.type==='case'){ m.scale.setScalar(1 + Math.sin(t*3)*0.08); }
+  });
+  controls.update();
+  renderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
+}
+animate();
+
+// ================= 리사이즈 =================
+addEventListener('resize', ()=>{
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight); labelRenderer.setSize(innerWidth, innerHeight);
+});
+
+// 로딩 해제
+setTimeout(()=>document.getElementById('boot').classList.add('hide'), 500);
+
+// PWA
+if('serviceWorker' in navigator) addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+
+// 첫 케이스 안내 자동 열림
+setTimeout(()=>{ const c = allNodes.find(n=>n.id==='case'); if(c) openPanel(c); }, 1200);
 </script>
 </body>
 </html>
