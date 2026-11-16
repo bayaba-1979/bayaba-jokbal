@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="족발 비즈니스 솔루션 연구소 — 3D 온톨로지 지식그래프. 침샘족발 카운터 스터디를 케이스로 한 연구 과제 트리.">
+<meta name="description" content="족발 비즈니스 솔루션 연구소 — 3D 온톨로지 지식그래프. data/ontology.json + data/stores.json 실데이터 기반.">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="족발 비즈니스 솔루션 연구소">
 <meta property="og:title" content="족발 비즈니스 솔루션 연구소">
-<meta property="og:description" content="3D 온톨로지 기반 연구 과제 트리. 침샘족발 카운터 스터디 케이스.">
+<meta property="og:description" content="실데이터(JSON DB)로 그리는 3D 온톨로지 연구 과제 트리. 침샘족발 카운터 스터디 케이스.">
 <title>족발 비즈니스 솔루션 연구소</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -49,6 +49,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .topbar .brand span{display:block;font-size:.56rem;font-weight:400;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
 .topbar .hint{margin-left:auto;font-size:.62rem;color:var(--ink3);letter-spacing:.06em;pointer-events:auto;text-align:right}
 .topbar .hint b{color:var(--bronze)}
+
+/* ── 데이터 소스 표시 ── */
+.dsrc{position:fixed;top:64px;right:16px;z-index:20;font-size:.55rem;color:var(--ink3);letter-spacing:.04em;text-align:right;line-height:1.7;pointer-events:none}
+.dsrc b{color:var(--teal)}
 
 /* ── 범례 ── */
 .legend{position:fixed;left:22px;bottom:22px;z-index:20;display:flex;flex-direction:column;gap:7px;pointer-events:none}
@@ -108,10 +112,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .c-lbl{font-size:.56rem;color:var(--ink3);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
 .note2{margin-top:10px;padding:10px 12px;border:1px dashed var(--bdr);border-radius:8px;font-size:.7rem;color:var(--ink3);line-height:1.6}
 
-/* ── 로딩 ── */
 #boot{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--bg);color:var(--ink3);font-size:.8rem;letter-spacing:.1em;transition:opacity .5s}
 #boot.hide{opacity:0;pointer-events:none}
-@media(max-width:640px){.topbar .hint{display:none}.panel{width:100vw}}
+@media(max-width:640px){.topbar .hint{display:none}.panel{width:100vw}.dsrc{display:none}}
 </style>
 </head>
 <body>
@@ -124,6 +127,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   </div>
   <div class="hint">🖱️ 드래그 회전 · 휠 줌 · <b>노드 클릭</b>해 진입</div>
 </header>
+<div class="dsrc">데이터 소스<br><b id="srcStatus">로딩 중…</b></div>
 
 <div class="legend">
   <div class="li"><span class="dot" style="color:#d4af37;background:#d4af37"></span>연구소 / 루트</div>
@@ -141,127 +145,58 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="panel-body" id="pBody"></div>
 </aside>
 
-<div id="boot">3D 온톨로지 로딩 중…</div>
+<div id="boot">온톨로지 DB 로딩 중…</div>
 
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
-// ================= 연구 과제 온톨로지 (트리 데이터) =================
-const TREE = {
-  id:'lab', label:'족발 비즈니스\n솔루션 연구소', icon:'🏛️', type:'root',
-  body:`<p>마왕족발 백운역점 · 가장맛있는족발 만수점 — 두 매장의 <b>경쟁 벤치마킹·프라이싱·매출 성장</b>을 데이터로 연구하는 공간입니다.</p><p>아래 트리에서 <b>노드를 클릭</b>해 연구 과제 하나씩 들어가 보세요. <span class="hl">빨간 노드(침샘족발 카운터 스터디)</span>가 현재 진행 중인 대표 케이스입니다.</p>`,
-  children:[
-    { id:'case', label:'침샘족발 카운터 스터디', icon:'🥊', type:'case',
-      body:`<p>옆 매장(침샘족발)이 <b>1+1·8,000원 할인·24시간 심야</b>로 우리 손님과 배달 수요를 갉아먹고 있습니다. 이 케이스는 침샘족발의 실체를 뜯어보고, 우리 매장의 무기로 정면 반격하는 <b>완결형 연구 과제</b>입니다.</p><p><span class="hl">핵심 공식:</span> 매출 = 객단가 × 주문 건수 → <b>객단가 +30% · 재방문 +30% · 신규 +30% · 채널 +20%</b> = 1.3×1.3×1.3×1.2 ≈ <b>2.6배(160%)</b>.</p><p>하위 6개 노드를 클릭해 단계별로 확인하세요.</p>`,
-      children:[
-        { id:'bench', label:'경쟁 벤치마킹', icon:'🔍', type:'leaf',
-          body:`<h3>침샘족발이 잘한 것</h3><ul>
-          <li><b>'미끼'를 던짐</b> — 1+1·2~3만 원대 실속 메뉴로 부담 없이 장바구니에 담게 만듦.</li>
-          <li><b>남들 잘 때 문 열었음</b> — 24시간 심야 영업으로 밤 수요 독식.</li>
-          <li><b>배달비 아끼는 법을 알았음</b> — 포장 8,000원 할인으로 동네 손님을 매장으로.</li></ul>
-          <h3>우리가 놓친 것</h3><ul>
-          <li><b>점잔 뺐음</b> — 정가 고수로 가성비 찾는 젊은 층에 "비싸서 패스".</li>
-          <li><b>수수료에 돈 다 뜯김</b> — 배달앱 10~15% + 대행비인데도 가격 방치.</li>
-          <li><b>손님 오면 끝</b> — 단골(직주문) 장치를 안 씀.</li></ul>
-          <p class="hl">결론: 침샘의 '미끼+심야'를 벤치마킹하되, 우리의 '홀+브랜드'로 역전.</p>` },
-        { id:'swot', label:'SWOT 분석', icon:'📊', type:'leaf',
-          body:`<table class="tbl"><tr><th>S 강점</th><td>동네가 다 아는 브랜드·맛 / <b>넓고 깨끗한 홀</b></td></tr>
-          <tr><th>W 약점</th><td>정가만 팔아 1~2인·야식족 놓침 / 수수료로 <b>남는 돈 적음</b></td></tr>
-          <tr><th>O 기회</th><td>"배달비 아깝네" <b>방문 포장 수요</b> / 가족 외식·홀 회식 독점 가능</td></tr>
-          <tr><th>T 위협</th><td>1+1·할인·심야 무장 <b>전투형 브랜드 침투</b></td></tr></table>` },
-        { id:'bridge', label:'브릿지 전략 (25,000원)', icon:'🌉', type:'leaf',
-          body:`<p>만수점은 이미 <b>25,000원 실속족발</b>이라는 무기를 쥐고 있습니다. 이걸 '구경만' 시키지 말고 손가락을 우리 쪽으로 꺾습니다.</p><ul>
-          <li><b>① 브랜드 퀄리티 승부수</b> — "싼 게 비지떡이 아닙니다. 가맛족 특제 씨육수로 삶아낸 고품격 실속 족발 25,000원."</li>
-          <li><b>② 포장 콤보 탈출</b> — "매장 방문 포장 시 음료수 무료 UP / 주먹밥 서비스!"</li>
-          <li><b>③ 배달 박스 쿠폰</b> — "앱 말고 매장 전화 주문 시 5,000원 상당 사이드."</li></ul>` },
-        { id:'playbook', label:'매출 2배 플레이북', icon:'📈', type:'leaf',
-          body:`<h3>전 세계 검증 전략 6가지</h3><ul>
-          <li><b>1. 로스리더 미끼</b> <span class="hl">(COSTCO)</span> — 미니족 9,900원 → 사이드로 수익.</li>
-          <li><b>2. 번들·가격 사다리</b> <span class="hl">(TACO BELL·CHILI'S)</span> — 29/39/49천원 3단계.</li>
-          <li><b>3. 구독·멤버십</b> <span class="hl">(PANERA·STARBUCKS)</span> — 막국수 무제한 패스 월 9,900원.</li>
-          <li><b>4. 업셀·메뉴 정리</b> <span class="hl">(MCDONALD'S)</span> — "막국수 2,000원 추가?"</li>
-          <li><b>5. 심야·시간대 세일</b> — 마감 세일 5,000원 할인.</li>
-          <li><b>6. 자체 채널(D2C)</b> — 직주문 쿠폰 + 알림톡 + 자체 배달.</li></ul>` },
-        { id:'pricing', label:'가격 데이터', icon:'💰', type:'leaf',
-          body:`<table class="tbl"><tr><th>메뉴</th><th>가격</th><th>원가율</th></tr>
-          <tr><td>족발 앞발(대)</td><td><b>41,000원</b></td><td>22.0%</td></tr>
-          <tr><td>직화불족발</td><td>40,000~48,000원</td><td>19.9%</td></tr>
-          <tr><td>보쌈(중/대)</td><td>35,000~47,000원</td><td>20.0%</td></tr>
-          <tr><td><b>실속족발(1~2인)</b></td><td><b>23,000~25,000원</b></td><td class="hl">만수점 무기</td></tr>
-          <tr><td>쟁반국수</td><td>3,000~17,000원</td><td class="hl">원가 낮음→서비스용</td></tr></table>
-          <p class="warn">⚠️ 배민·쿠팡이츠·요기요 실시간 가격은 사장님 계정 로그인 후 파싱 예정.</p>` },
-        { id:'check', label:'실행 체크리스트', icon:'✅', type:'leaf',
-          body:`<ul><li>배달앱에 <b>미끼 메뉴(2~3만 원대)</b> 신설</li>
-          <li>25,000원 메뉴에 <b>브랜드 문구 + 포장 콤보</b></li>
-          <li>가게 앞 + 앱 배너 <b>"포장 4,000원 할인 + 막국수"</b></li>
-          <li>배달 박스 <b>직주문 쿠폰·스티커</b></li>
-          <li>동네 1~2km <b>자체 배달</b> + 단골 <b>알림톡</b></li>
-          <li><b>3단계 세트 + 막국수 무제한 패스</b> 구성</li></ul>` }
-      ]},
-    { id:'stores', label:'매장 분석', icon:'🏪', type:'trail',
-      body:`<p>연구소가 분석·운영하는 실제 족발 매장 2곳.</p>`,
-      children:[
-        { id:'mawang', label:'마왕족발 백운역점', icon:'👑', type:'leaf',
-          body:`<h3>마왕족발 백운역점</h3><ul>
-          <li><b>주소</b> 인천광역시 부평구 마장로36번길 26 1층</li>
-          <li><b>영업</b> 월~금 12:00~03:00 · 토 11:00~03:00 · 일 11:00~23:00</li>
-          <li><b>대표메뉴</b> 마왕통구이(소) 30,000원 · 쟁반국수 7,000원</li></ul>` },
-        { id:'mansu', label:'가장맛있는족발 만수점', icon:'🍖', type:'leaf',
-          body:`<h3>가장맛있는족발 인천만수점</h3><ul>
-          <li><b>주소</b> 인천광역시 남동구 하촌로71번길 9 1층 (1993년 개업)</li>
-          <li><b>영업</b> 저녁 영업 · 배달 가능</li>
-          <li><b>대표메뉴</b> 실속족발 25,000원 · 족발 · 쟁반국수 · 굴보쌈(계절)</li></ul>` }
-      ]},
-    { id:'pricing', label:'프라이싱', icon:'🧮', type:'trail',
-      body:`<p>메뉴 <b>가격 책정</b>과 <b>마진 관리</b>를 위한 독립 카테고리입니다. 원가 계산기로 가격을 책정하고, 회계 장부처럼 마진을 추적합니다.</p><p>하위 노드의 <b>원가 계산기</b>를 직접 사용해 보세요.</p>`,
-      children:[
-        { id:'calc', label:'원가 계산기', icon:'🧮', type:'leaf',
-          body:`<p>원가(재료비)와 판매가를 넣으면 <b>원가율·마진·마진율</b>을 즉시 계산합니다. 목표 마진율로 판매가를 역산할 수도 있습니다.</p>
-          <div class="calc">
-            <div class="c-row"><label>원가(재료비)</label><input type="number" id="c_cost" value="9025" oninput="window.cc()"><span class="unit">원</span></div>
-            <div class="c-row"><label>판매가</label><input type="number" id="c_price" value="41000" oninput="window.cc()"><span class="unit">원</span></div>
-            <div class="c-grid">
-              <div class="c-box"><div class="c-val" id="c_rate">—</div><div class="c-lbl">원가율</div></div>
-              <div class="c-box"><div class="c-val" id="c_margin">—</div><div class="c-lbl">마진(이익)</div></div>
-              <div class="c-box"><div class="c-val" id="c_mrate">—</div><div class="c-lbl">마진율</div></div>
-            </div>
-            <div class="c-row"><label>목표 마진율</label><input type="number" id="c_target" value="60" oninput="window.cc()"><span class="unit">%</span><span class="c-arrow">→ 판매가</span><b id="c_suggest">—</b></div>
-          </div>
-          <p class="note2">예) 족발 앞발: 원가 9,025원 / 판매가 41,000원 → 마진 약 31,975원 (마진율 약 78%).</p>` },
-        { id:'price-strategy', label:'프라이싱 전략', icon:'🎯', type:'leaf',
-          body:`<ul>
-          <li><b>3단계 가격 사다리</b> — 실속 29,000 / 스탠다드 39,000 / 프리미엄 49,000원 (중간값 유도).</li>
-          <li><b>미끼 메뉴</b> — 미니족 9,900원(원가 수준) → 사이드·주류로 수익.</li>
-          <li><b>포장 할인</b> — 수수료 절감분(10~15%)을 고객에게 환원 (4,000원 + 막국수).</li>
-          <li><b>서비스 품목</b> — 원가 낮은 쟁반국수(3~8천원)·주먹밥(4천원)을 할인/리뷰 이벤트에 활용.</li></ul>` },
-        { id:'price-data', label:'가격·원가 데이터', icon:'💰', type:'leaf',
-          body:`<table class="tbl"><tr><th>메뉴</th><th>판매가</th><th>원가</th><th>마진율</th></tr>
-          <tr><td>족발 앞발(대)</td><td>41,000원</td><td>9,025원</td><td class="ok">78%</td></tr>
-          <tr><td>직화불족발</td><td>40,000원</td><td>7,956원</td><td class="ok">80%</td></tr>
-          <tr><td>보쌈(중)</td><td>37,000원</td><td>7,403원</td><td class="ok">80%</td></tr>
-          <tr><td>실속족발</td><td>25,000원</td><td>—</td><td class="hl">만수점 무기</td></tr></table>
-          <p class="warn">⚠️ 배민·쿠팡이츠·요기요 실시간 가격은 사장님 계정 로그인 후 파싱 예정.</p>` }
-      ]},
-    { id:'channel', label:'배달 채널 파싱', icon:'🛵', type:'trail',
-      body:`<p>배민·요기요·쿠팡이츠 전산 등록 상태를 파싱해 마스터 데이터에 반영합니다.</p><p class="warn">⚠️ 사장님 계정 로그인(OTP) 필요 — Playwright 골격 완료.</p>`,
-      children:[
-        { id:'baemin', label:'배달의민족', icon:'🛵', type:'leaf', body:`<p><b>배달의민족</b> — 수수료 10~15%. 사장님 계정 로그인 후 메뉴·가격 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
-        { id:'yogiyo', label:'요기요', icon:'🥡', type:'leaf', body:`<p><b>요기요</b> — 수수료 ~12%. 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
-        { id:'coupang', label:'쿠팡이츠', icon:'📦', type:'leaf', body:`<p><b>쿠팡이츠</b> — 수수료 ~9.8%. 파싱 예정.</p><p class="warn">상태: 조사필요</p>` },
-        { id:'naver', label:'네이버 플레이스', icon:'📍', type:'leaf', body:`<p><b>네이버 플레이스</b> 자동화 + 콘텐츠 운영.</p><p class="ok">오픈 이슈 #1로 등록됨.</p>` }
-      ]},
-    { id:'global', label:'글로벌 리테일 벤치마킹', icon:'🌍', type:'trail',
-      body:`<p>전 세계 소매·외식에서 검증된 전략을 족발 사업에 적용합니다.</p>`,
-      children:[
-        { id:'costco', label:'로스리더 (Costco)', icon:'🐔', type:'leaf', body:`<p>코스트코 <b>치킨 4.99달러(원가 이하)</b>·핫도그 1.5달러 → 장바구니 평균 <b>150~200달러</b>.</p><p>→ 족발집 적용: <b>미니족 9,900원</b> 미끼.</p>` },
-        { id:'tacobell', label:'번들 (Taco Bell·Chili\'s)', icon:'🌮', type:'leaf', body:`<p>타코벨 <b>5/7/9달러 3단계</b>, 칠리스 번들로 <b>주가 40→180달러</b>, 힙피시 <b>객단가 36%↑</b>.</p><p>→ <b>3단계 세트</b> 29/39/49천원.</p>` },
-        { id:'panera', label:'구독 (Panera·Starbucks)', icon:'☕', type:'leaf', body:`<p>파네라 <b>음료 무제한 구독</b>이 거래 1/4, 공짜 손님 <b>70% 음식 구매</b>. 스타벅스 매출 <b>57% 멤버</b>.</p><p>→ <b>막국수 무제한 패스</b> 월 9,900원.</p>` },
-        { id:'mcd', label:'업셀 (McDonald\'s)', icon:'🍟', type:'leaf', body:`<p>맥도날드 업셀 제안으로 <b>매출 +15~40%</b>. 안 팔리는 메뉴 제거.</p><p>→ 체크아웃 <b>"막국수 2,000원 추가?"</b></p>` }
-      ]}
-  ]
-};
+// ================= 실제 데이터 로드 (data/ontology.json + data/stores.json) =================
+let storesData = null;
+let TREE = null;
+
+async function loadOntology(){
+  const [onto, stores] = await Promise.all([
+    fetch('data/ontology.json').then(r=>r.json()),
+    fetch('data/stores.json').then(r=>r.json()).catch(()=>null)
+  ]);
+  storesData = stores;
+  return onto;
+}
+
+function buildTree(onto){
+  const nodes = (onto.nodes||[]).map(n=>({...n, children:[]}));
+  const byId = Object.fromEntries(nodes.map(n=>[n.id,n]));
+  nodes.forEach(n=>{ if(n.rel && byId[n.rel.to]) byId[n.rel.to].children.push(n); });
+  return nodes.find(n=>!n.rel) || nodes[0];
+}
+
+function storeContent(s){
+  if(!s) return '<p class="warn">데이터 없음</p>';
+  const menus = (s.menu||[]).map(cat =>
+    `<div><b>${cat.category}</b> — ` +
+    cat.items.filter(i=>i.price!=null).map(i=>`${i.name} ${i.price.toLocaleString('ko-KR')}원`).join(' · ') +
+    `</div>`
+  ).join('');
+  return `<h3>${s.name}</h3><ul>
+    <li><b>주소</b> ${s.address||'-'}</li>
+    <li><b>영업</b> ${s.hours||'-'}</li>
+    <li><b>브랜드</b> ${s.brand||'-'}</li></ul>
+    <p>${menus || '<span class="warn">메뉴 조사 필요</span>'}</p>
+    <p class="ok">✓ 출처: data/stores.json (실데이터)</p>`;
+}
+
+function priceTable(){
+  const rows=[];
+  (storesData?.stores||[]).forEach(s => (s.menu||[]).forEach(cat => cat.items.forEach(i=>{
+    if(i.price!=null && i.cost!=null){
+      const mr = ((i.price-i.cost)/i.price*100).toFixed(0);
+      rows.push(`<tr><td>${i.name}</td><td>${i.price.toLocaleString('ko-KR')}원</td><td>${i.cost.toLocaleString('ko-KR')}원</td><td class='ok'>${mr}%</td></tr>`);
+    }
+  })));
+  return rows.join('') || '<tr><td colspan="4" class="warn">원가 데이터 없음</td></tr>';
+}
 
 // ================= 3D 씬 =================
 const scene = new THREE.Scene();
@@ -292,61 +227,48 @@ controls.autoRotate = true;
 controls.autoRotateSpeed = 0.5;
 controls.target.set(0, 0.5, 0);
 
-// 조명
 scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-const p1 = new THREE.PointLight(0xd4af37, 90, 60); p1.position.set(10, 12, 10); scene.add(p1);
-const p2 = new THREE.PointLight(0x5b8fd6, 40, 60); p2.position.set(-12, -4, -8); scene.add(p2);
+const pl1 = new THREE.PointLight(0xd4af37, 90, 60); pl1.position.set(10, 12, 10); scene.add(pl1);
+const pl2 = new THREE.PointLight(0x5b8fd6, 40, 60); pl2.position.set(-12, -4, -8); scene.add(pl2);
 
-// 골드 파티클 배경 (3D)
-const pc = 600, ppos = new Float32Array(pc*3);
-for(let i=0;i<pc;i++){ ppos[i*3]=(Math.random()-0.5)*50; ppos[i*3+1]=(Math.random()-0.5)*40; ppos[i*3+2]=(Math.random()-0.5)*30; }
+const PC = 600, ppos = new Float32Array(PC*3);
+for(let i=0;i<PC;i++){ ppos[i*3]=(Math.random()-0.5)*50; ppos[i*3+1]=(Math.random()-0.5)*40; ppos[i*3+2]=(Math.random()-0.5)*30; }
 const pgeo = new THREE.BufferGeometry(); pgeo.setAttribute('position', new THREE.BufferAttribute(ppos,3));
-const pmat = new THREE.PointsMaterial({ color:0xd4af37, size:0.05, transparent:true, opacity:0.5, depthWrite:false, blending:THREE.AdditiveBlending });
-scene.add(new THREE.Points(pgeo, pmat));
+scene.add(new THREE.Points(pgeo, new THREE.PointsMaterial({ color:0xd4af37, size:0.05, transparent:true, opacity:0.5, depthWrite:false, blending:THREE.AdditiveBlending })));
 
 // ================= 트리 레이아웃 + 노드/엣지 =================
 const RADIUS = 5.6;
 function layout(node, depth, angle, spread){
   const r = depth===0 ? 0 : RADIUS * depth;
-  node._pos = new THREE.Vector3(r*Math.cos(angle), depth===0 ? 1.6 : (depth===1?0.6:0)*1.0 + (depth===2? (angle*0.3):0), r*Math.sin(angle));
+  node._pos = new THREE.Vector3(r*Math.cos(angle), depth===0 ? 1.6 : (depth===2 ? angle*0.3 : 0.6), r*Math.sin(angle));
   const kids = node.children||[];
   if(!kids.length) return;
   if(kids.length===1){ layout(kids[0], depth+1, angle, spread); return; }
   kids.forEach((k,i)=>{ const a = angle + spread*(i/(kids.length-1)-0.5); layout(k, depth+1, a, spread*0.7); });
 }
-layout(TREE, 0, -Math.PI/2, Math.PI*1.7);
 
 const COLORS = { root:0xd4af37, trail:0x3db8a8, case:0xe85d4c, leaf:0xc9a96e };
 const nodeMeshes = [];
 const allNodes = [];
-const edges = [];
 
 function collect(node, parent){
   allNodes.push(node);
-  const c = COLORS[node.type];
-  // 구체
+  const c = COLORS[node.type] || COLORS.leaf;
   const size = node.type==='root'?1.1 : node.type==='case'?0.85 : node.type==='trail'?0.7 : 0.5;
-  const geo = new THREE.SphereGeometry(size, 32, 32);
-  const mat = new THREE.MeshStandardMaterial({ color:c, roughness:0.35, metalness:0.55, emissive:c, emissiveIntensity: node.type==='case'?0.45:0.25 });
-  const m = new THREE.Mesh(geo, mat);
-  m.position.copy(node._pos);
-  m.userData = node;
-  scene.add(m); nodeMeshes.push(m);
-  // 후광 스프라이트
+  const m = new THREE.Mesh(new THREE.SphereGeometry(size,32,32),
+    new THREE.MeshStandardMaterial({ color:c, roughness:0.35, metalness:0.55, emissive:c, emissiveIntensity: node.type==='case'?0.45:0.25 }));
+  m.position.copy(node._pos); m.userData = node; scene.add(m); nodeMeshes.push(m);
   const halo = new THREE.Sprite(new THREE.SpriteMaterial({ color:c, transparent:true, opacity:0.16, depthWrite:false, blending:THREE.AdditiveBlending }));
   halo.scale.set(size*4.5, size*4.5, 1); halo.position.copy(node._pos); scene.add(halo);
-  // 라벨
   const lbl = document.createElement('div');
   lbl.className = 'node-label' + (node.type==='root'?' root':'') + (node.type==='case'?' case':'');
-  lbl.textContent = (node.icon?node.icon+' ':'') + node.label.replace(/\n/g,' ');
+  lbl.textContent = (node.icon?node.icon+' ':'') + node.label;
   const lab = new CSS2DObject(lbl); lab.position.copy(node._pos); lab.position.y += (node.type==='root'?2.2:1.1); scene.add(lab);
   lbl.addEventListener('click', ()=>openPanel(node));
-  // 엣지
-  if(parent){ const a = parent._pos, b = node._pos; const gp = new THREE.BufferGeometry().setFromPoints([a,b]);
-    const ln = new THREE.Line(gp, new THREE.LineBasicMaterial({ color:c, transparent:true, opacity:0.35 })); scene.add(ln); edges.push(ln); }
+  if(parent){ const gp = new THREE.BufferGeometry().setFromPoints([parent._pos, node._pos]);
+    scene.add(new THREE.Line(gp, new THREE.LineBasicMaterial({ color:c, transparent:true, opacity:0.35 }))); }
   (node.children||[]).forEach(k=>collect(k, node));
 }
-collect(TREE, null);
 
 // ================= 패널 =================
 const panel = document.getElementById('panel');
@@ -356,23 +278,19 @@ const pClose = document.getElementById('pClose');
 function openPanel(node){
   pIco.textContent = node.icon||'📄';
   pCrumb.textContent = (node.type==='root'?'연구소': node.type==='case'?'케이스 · 연구': node.type==='trail'?'연구 과제 트레일':'세부 분석');
-  pTitle.textContent = node.label.replace(/\n/g,' ');
-  pBody.innerHTML = node.body||'';
-  panel.classList.add('open');
+  pTitle.textContent = node.label;
+  pBody.innerHTML = node.content||'';
+  if(node.id==='price-data'){ const t = document.getElementById('price-tbl'); if(t) t.innerHTML = '<tr><th>메뉴</th><th>판매가</th><th>원가</th><th>마진율</th></tr>' + priceTable(); }
   if(document.getElementById('c_cost')) window.cc();
+  panel.classList.add('open');
   controls.autoRotate = false;
 }
 pClose.addEventListener('click', ()=>{ panel.classList.remove('open'); controls.autoRotate = true; });
 
-// 원가 계산기 (회계 장부식)
 window.cc = function(){
   const g = id => document.getElementById(id);
-  const cost = parseFloat(g('c_cost').value)||0;
-  const price = parseFloat(g('c_price').value)||0;
-  const target = parseFloat(g('c_target').value)||0;
-  const rate = price>0 ? cost/price*100 : 0;
-  const margin = price-cost;
-  const mrate = price>0 ? margin/price*100 : 0;
+  const cost = parseFloat(g('c_cost').value)||0, price = parseFloat(g('c_price').value)||0, target = parseFloat(g('c_target').value)||0;
+  const rate = price>0 ? cost/price*100 : 0, margin = price-cost, mrate = price>0 ? margin/price*100 : 0;
   const suggest = (target>0 && target<100) ? Math.round(cost/(1-target/100)) : 0;
   g('c_rate').textContent = rate.toFixed(1)+'%';
   g('c_margin').textContent = margin.toLocaleString('ko-KR')+'원';
@@ -380,34 +298,44 @@ window.cc = function(){
   g('c_suggest').textContent = suggest.toLocaleString('ko-KR')+'원';
 };
 
-// ================= 애니메이션 루프 =================
+// ================= 초기화 (데이터 → 그래프) =================
+async function init(){
+  try{
+    const onto = await loadOntology();
+    TREE = buildTree(onto);
+    // 매장 노드 → stores.json 실데이터 주입
+    TREE && (()=>{
+      const walk = n => { if(n.storeId){ const s = (storesData?.stores||[]).find(x=>x.id===n.storeId); n.content = storeContent(s); } (n.children||[]).forEach(walk); };
+      walk(TREE);
+    })();
+    document.getElementById('srcStatus').innerHTML = 'ontology.json<br>stores.json';
+    layout(TREE, 0, -Math.PI/2, Math.PI*1.7);
+    collect(TREE, null);
+    setTimeout(()=>{ const c = allNodes.find(n=>n.id==='case-chimsaem'); if(c) openPanel(c); }, 800);
+  }catch(e){
+    document.getElementById('srcStatus').textContent = '로드 실패: '+e.message;
+  }
+  document.getElementById('boot').classList.add('hide');
+}
+init();
+
+// ================= 애니메이션 =================
 const clock = new THREE.Clock();
-function animate(){
+(function animate(){
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-  nodeMeshes.forEach(m=>{
-    if(m.userData.type==='case'){ m.scale.setScalar(1 + Math.sin(t*3)*0.08); }
-  });
+  nodeMeshes.forEach(m=>{ if(m.userData.type==='case') m.scale.setScalar(1 + Math.sin(t*3)*0.08); });
   controls.update();
   renderer.render(scene, camera);
   labelRenderer.render(scene, camera);
-}
-animate();
+})();
 
-// ================= 리사이즈 =================
 addEventListener('resize', ()=>{
   camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight); labelRenderer.setSize(innerWidth, innerHeight);
 });
 
-// 로딩 해제
-setTimeout(()=>document.getElementById('boot').classList.add('hide'), 500);
-
-// PWA
 if('serviceWorker' in navigator) addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-
-// 첫 케이스 안내 자동 열림
-setTimeout(()=>{ const c = allNodes.find(n=>n.id==='case'); if(c) openPanel(c); }, 1200);
 </script>
 </body>
 </html>
