@@ -49,6 +49,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .topbar .brand span{display:block;font-size:.56rem;font-weight:400;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
 .topbar .hint{margin-left:auto;font-size:.62rem;color:var(--ink3);letter-spacing:.06em;pointer-events:auto;text-align:right}
 .topbar .hint b{color:var(--bronze)}
+.sol-link{pointer-events:auto;font-size:.72rem;font-weight:700;color:#0a0908;background:linear-gradient(135deg,var(--gold),#b8934a);padding:10px 18px;border-radius:9px;text-decoration:none;white-space:nowrap;transition:.25s;letter-spacing:.02em}
+.sol-link:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,55,.4)}
 
 /* ── 데이터 소스 표시 ── */
 .dsrc{position:fixed;top:64px;right:16px;z-index:20;font-size:.55rem;color:var(--ink3);letter-spacing:.04em;text-align:right;line-height:1.7;pointer-events:none}
@@ -125,6 +127,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="logo">족</div>
     <h1>족발 비즈니스 솔루션 연구소<span>Jokbal Solution Lab · Ontology</span></h1>
   </div>
+  <a class="sol-link" href="solution.html">📄 솔루션 문서 →</a>
   <div class="hint">🖱️ 드래그 회전 · 휠 줌 · <b>노드 클릭</b>해 진입</div>
 </header>
 <div class="dsrc">데이터 소스<br><b id="srcStatus">로딩 중…</b></div>
